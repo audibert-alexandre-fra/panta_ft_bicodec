@@ -1,0 +1,5 @@
+2026-06-01 14:55:01,862 - INFO - root - Starting training with config:
+2026-06-01 14:55:01,873 - INFO - root - Logging Dataset
+2026-06-01 14:55:01,963 - INFO - root - Dataset initialized with 19704 audio files.
+2026-06-01 14:55:01,965 - INFO - root - Dataset initialized with 4 audio files.
+2026-06-01 14:55:01,965 - INFO - root - Build

@@ -1,0 +1,23 @@
+dataset:
+  nb_val: 4
+  list_path_audio: 
+    - "/home/getalp/audibeal/panta_ft_bicodec/src/panta_ft_bicodec/data/data_ft"
+
+training:
+  seed: 50
+  batch_size: 16
+  lr: 0.00001
+  epochs: 100
+  run_name: "first run"
+  experiment_name: "panta_ft_bicodec_log_with_l1"
+  warmup_step_disciminator: 100
+  warmup_step_generator: 5000
+  nb_steps: 200000
+  min_lr: 0.000001
+  eval_step: 5000
+
+loss:
+  weight_mel: 15
+
+adversarial_model:
+  lr: 0.0002

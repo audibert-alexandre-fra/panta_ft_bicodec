@@ -1,0 +1,17 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+src/panta_ft_bicodec/data/data_ft/*
+src/panta_ft_bicodec/data/test_data/*
+src/panta_ft_bicodec/data/filter_data/*
+**/*.db
+**/*.wav
+**/*.safetensors
+**/*bin
