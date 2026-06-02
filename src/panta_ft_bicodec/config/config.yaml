@@ -5,7 +5,7 @@ dataset:
 
 training:
   seed: 50
-  batch_size: 16
+  batch_size: 8
   lr: 0.00001
   epochs: 100
   run_name: "first run"
@@ -15,9 +15,12 @@ training:
   nb_steps: 200000
   min_lr: 0.000001
   eval_step: 5000
+  type_ddp: "single_node"
+  load_model: null
 
 loss:
   weight_mel: 15
 
 adversarial_model:
   lr: 0.0002
+

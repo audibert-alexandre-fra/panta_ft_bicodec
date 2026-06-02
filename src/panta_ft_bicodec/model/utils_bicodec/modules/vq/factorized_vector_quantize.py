@@ -65,7 +65,6 @@ class FactorizedVectorQuantize(nn.Module):
             self.out_project = nn.Identity()
 
         self.codebook = nn.Embedding(self.codebook_size, self.codebook_dim)
-        self.register_buffer("cluster_size", torch.zeros(self.codebook_size))
 
     def forward(self, z: torch.Tensor) -> Dict[str, Any]:
         """Quantized the input tensor using a fixed codebook and returns
@@ -89,8 +88,6 @@ class FactorizedVectorQuantize(nn.Module):
         Tensor[B x D x T]
             Projected latents (continuous representation of input before quantization)
         """
-        # transpose since we use linear
-
         # Factorized codes project input into low-dimensional space if self.input_dim != self.codebook_dim
         z_e = self.in_project(z)
         z_q, indices, dists = self.decode_latents(z_e)
@@ -101,12 +98,6 @@ class FactorizedVectorQuantize(nn.Module):
         perplexity = torch.exp(-torch.sum(avg_probs * torch.log(avg_probs + 1e-10)))
 
         active_num = (embed_onehot.sum(0).sum(0) > 0).sum()
-        if self.training:
-            # We do the expiry of code at that point as buffers are in sync
-            # and all the workers will take the same decision.
-            ema_inplace(self.cluster_size, embed_onehot.sum(0).sum(0), self.decay)
-            active_num = sum(self.cluster_size > self.threshold_ema_dead_code)
-
         if self.training:
             commit_loss = (
                 F.mse_loss(z_e, z_q.detach(), reduction="none").mean([1, 2])
@@ -129,7 +120,6 @@ class FactorizedVectorQuantize(nn.Module):
         z_q = self.out_project(z_q)
 
         vq_loss = (commit_loss + codebook_loss).mean()
-
         return {
             "z_q": z_q,
             "indices": indices,

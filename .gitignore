@@ -15,3 +15,6 @@ src/panta_ft_bicodec/data/filter_data/*
 **/*.wav
 **/*.safetensors
 **/*bin
+**/mlruns/*
+src/panta_ft_bicodec/training/mlruns/*
+src/panta_ft_bicodec/training/checkpoints/*

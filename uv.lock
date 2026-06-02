@@ -1067,6 +1067,15 @@ wheels = [
 ]
 
 [[package]]
+name = "idr-torch"
+version = "2.5.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/fa/06/b888c2c998eb811d9542c72e0fde71effb4fb8c28768f636db060c61f985/idr_torch-2.5.0.tar.gz", hash = "sha256:e0947b4e3fea03369c7c2a8db362012da889c50c1962c700212f7fcde43998e3", size = 11649, upload-time = "2025-10-23T10:02:28.509Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d6/4d/c1f4b5a27c41255cb70d853b91c243926f94cc0bf0c6e52fbb3e6e6df91c/idr_torch-2.5.0-py3-none-any.whl", hash = "sha256:cba313766c7f93c17905350e009b7d14d2f08e145cf0662b676f3eec4cb51d9a", size = 14715, upload-time = "2025-10-23T10:02:26.47Z" },
+]
+
+[[package]]
 name = "importlib-metadata"
 version = "7.1.0"
 source = { registry = "https://download.pytorch.org/whl/cu128" }
@@ -2057,6 +2066,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "einops" },
     { name = "einx" },
+    { name = "idr-torch" },
     { name = "mistral-common" },
     { name = "mlflow" },
     { name = "omegaconf" },
@@ -2074,6 +2084,7 @@ dependencies = [
 requires-dist = [
     { name = "einops", specifier = ">=0.8.2" },
     { name = "einx", specifier = ">=0.4.3" },
+    { name = "idr-torch", specifier = ">=2.5.0" },
     { name = "mistral-common", specifier = ">=1.11.2" },
     { name = "mlflow", specifier = ">=3.12.0" },
     { name = "omegaconf", specifier = ">=2.3.0" },

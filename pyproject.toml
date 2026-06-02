@@ -7,6 +7,7 @@ requires-python = ">=3.11"
 dependencies = [
     "einops>=0.8.2",
     "einx>=0.4.3",
+    "idr-torch>=2.5.0",
     "mistral-common>=1.11.2",
     "mlflow>=3.12.0",
     "omegaconf>=2.3.0",
