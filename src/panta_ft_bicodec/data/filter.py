@@ -12,9 +12,10 @@ def process_remove_short_segments(dataset_path: str, name: str) -> None:
     dataset_path = Path(dataset_path).resolve()
     dataset_path_save = current_path / name
     files = []
-    files += list(dataset_path.glob("*.wav"))
-    files += list(dataset_path.glob("*.mp3"))
-    files += list(dataset_path.glob("*.mp4"))
+    files = []
+    files += list(dataset_path.rglob("*.wav"))
+    files += list(dataset_path.rglob("*.mp3"))
+    files += list(dataset_path.rglob("*.mp4"))
     dataset_path_save.mkdir(parents=True, exist_ok=True)
     total_samples = 0
     total_time = 0
