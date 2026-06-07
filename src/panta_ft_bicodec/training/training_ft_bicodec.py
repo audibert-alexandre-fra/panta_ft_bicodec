@@ -120,6 +120,7 @@ def train(config: dict):
     while steps < config["training"]["nb_steps"]:
         sampler_train.set_epoch(epoch)
         for batch in tqdm(dataloader_train, desc="Training"):
+            batch = batch.to(device) 
             optimizer_discriminator.zero_grad()
             with torch.no_grad():
                 with autocast("cuda"):
