@@ -1,0 +1,325 @@
++ export OMP_NUM_THREADS=8
++ OMP_NUM_THREADS=8
++ export NCCL_ASYNC_ERROR_HANDLING=1
++ NCCL_ASYNC_ERROR_HANDLING=1
++ export PYTORCH_ALLOC_CONF=expandable_segments:True
++ PYTORCH_ALLOC_CONF=expandable_segments:True
++ source ../../../.venv/bin/activate
+++ '[' -z '' ']'
+++ '[' -n x ']'
+++ SCRIPT_PATH=../../../.venv/bin/activate
+++ '[' ../../../.venv/bin/activate = /var/spool/slurmd/job1952626/slurm_script ']'
+++ deactivate nondestructive
+++ unset -f pydoc
+++ '[' -z '' ']'
+++ '[' -z '' ']'
+++ hash -r
+++ '[' -z '' ']'
+++ unset VIRTUAL_ENV
+++ unset VIRTUAL_ENV_PROMPT
+++ '[' '!' nondestructive = nondestructive ']'
+++ VIRTUAL_ENV=/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv
+++ '[' linux-gnu = cygwin ']'
+++ '[' linux-gnu = msys ']'
+++ export VIRTUAL_ENV
+++ '[' -z '' ']'
+++ unset SCRIPT_PATH
+++ _OLD_VIRTUAL_PATH=/linkhome/rech/genlig01/uid39ok/.local/bin:/lustre/fshomisc/sup/spack_soft/environment-modules/4.3.1/gcc-11.3.1-wf7m7j6whgecysm2fm5n73sm4jg7txup/bin:/opt/clmgr/sbin:/opt/clmgr/bin:/opt/sgi/sbin:/opt/sgi/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/c3/bin:/gpfslocalsup/bin:/gpfslocalsys/bin
+++ PATH=/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/bin:/linkhome/rech/genlig01/uid39ok/.local/bin:/lustre/fshomisc/sup/spack_soft/environment-modules/4.3.1/gcc-11.3.1-wf7m7j6whgecysm2fm5n73sm4jg7txup/bin:/opt/clmgr/sbin:/opt/clmgr/bin:/opt/sgi/sbin:/opt/sgi/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/c3/bin:/gpfslocalsup/bin:/gpfslocalsys/bin
+++ export PATH
+++ '[' xpanta-ft-bicodec '!=' x ']'
+++ VIRTUAL_ENV_PROMPT=panta-ft-bicodec
+++ export VIRTUAL_ENV_PROMPT
+++ '[' -z '' ']'
+++ '[' -z '' ']'
+++ _OLD_VIRTUAL_PS1=
+++ PS1='(panta-ft-bicodec) '
+++ export PS1
+++ alias pydoc
+++ true
+++ hash -r
++ srun python -u training_ft_bicodec.py
+[W607 06:39:09.788507971 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W607 06:39:09.814292201 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W607 06:39:09.104561270 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W607 06:39:09.215288163 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+2026-06-07 06:39:10,511 - INFO - root - Starting training with config:3, False
+2026-06-07 06:39:10,511 - INFO - root - Starting training with config:2, False
+2026-06-07 06:39:10,512 - INFO - root - Starting training with config:1, False
+2026-06-07 06:39:10,512 - INFO - root - Starting training with config:0, True
+2026-06-07 06:39:10,521 - INFO - root - Logging Dataset
+2026-06-07 06:39:10,521 - INFO - root - Logging Dataset
+2026-06-07 06:39:10,521 - INFO - root - Logging Dataset
+2026-06-07 06:39:10,521 - INFO - root - Logging Dataset
+2026-06-07 06:39:16,718 - INFO - root - Dataset initialized with 797468 audio files.
+2026-06-07 06:39:16,718 - INFO - root - Dataset initialized with 797468 audio files.
+2026-06-07 06:39:16,737 - INFO - root - Dataset initialized with 797468 audio files.
+2026-06-07 06:39:16,738 - INFO - root - Dataset initialized with 797468 audio files.
+2026-06-07 06:39:16,891 - INFO - root - Dataset initialized with 200 audio files.
+2026-06-07 06:39:16,891 - INFO - root - Dataset initialized with 200 audio files.
+2026-06-07 06:39:16,891 - INFO - root - Dataset initialized with 200 audio files.
+2026-06-07 06:39:16,891 - INFO - root - Dataset initialized with 200 audio files.
+2026-06-07 06:39:16,891 - INFO - root - Build
+2026-06-07 06:39:16,891 - INFO - root - Build
+2026-06-07 06:39:16,891 - INFO - root - Build
+2026-06-07 06:39:16,891 - INFO - root - Build
+/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+Loading weights:   0%|          | 0/422 [00:00<?, ?it/s]Loading weights: 100%|██████████| 422/422 [00:00<00:00, 60525.11it/s]
+Loading weights:   0%|          | 0/422 [00:00<?, ?it/s]Loading weights: 100%|██████████| 422/422 [00:00<00:00, 52832.56it/s]
+Loading weights:   0%|          | 0/422 [00:00<?, ?it/s]Loading weights: 100%|██████████| 422/422 [00:00<00:00, 52015.88it/s]
+Loading weights:   0%|          | 0/422 [00:00<?, ?it/s]Loading weights: 100%|██████████| 422/422 [00:00<00:00, 56955.19it/s]
+[transformers] [1mWav2Vec2Model LOAD REPORT[0m from: /lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/pre_trained_weights/bicodec/wav2vec2-large-xlsr-53
+Key                          | Status     |  | 
+-----------------------------+------------+--+-
+project_q.bias               | UNEXPECTED |  | 
+project_q.weight             | UNEXPECTED |  | 
+quantizer.codevectors        | UNEXPECTED |  | 
+project_hid.bias             | UNEXPECTED |  | 
+project_hid.weight           | UNEXPECTED |  | 
+quantizer.weight_proj.bias   | UNEXPECTED |  | 
+quantizer.weight_proj.weight | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+[transformers] [1mWav2Vec2Model LOAD REPORT[0m from: /lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/pre_trained_weights/bicodec/wav2vec2-large-xlsr-53
+Key                          | Status     |  | 
+-----------------------------+------------+--+-
+project_hid.bias             | UNEXPECTED |  | 
+quantizer.weight_proj.weight | UNEXPECTED |  | 
+project_hid.weight           | UNEXPECTED |  | 
+quantizer.weight_proj.bias   | UNEXPECTED |  | 
+project_q.weight             | UNEXPECTED |  | 
+project_q.bias               | UNEXPECTED |  | 
+quantizer.codevectors        | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+[transformers] [1mWav2Vec2Model LOAD REPORT[0m from: /lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/pre_trained_weights/bicodec/wav2vec2-large-xlsr-53
+Key                          | Status     |  | 
+-----------------------------+------------+--+-
+project_q.weight             | UNEXPECTED |  | 
+quantizer.weight_proj.weight | UNEXPECTED |  | 
+project_hid.bias             | UNEXPECTED |  | 
+project_q.bias               | UNEXPECTED |  | 
+project_hid.weight           | UNEXPECTED |  | 
+quantizer.weight_proj.bias   | UNEXPECTED |  | 
+quantizer.codevectors        | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+[transformers] [1mWav2Vec2Model LOAD REPORT[0m from: /lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/pre_trained_weights/bicodec/wav2vec2-large-xlsr-53
+Key                          | Status     |  | 
+-----------------------------+------------+--+-
+project_q.bias               | UNEXPECTED |  | 
+project_hid.bias             | UNEXPECTED |  | 
+quantizer.codevectors        | UNEXPECTED |  | 
+project_q.weight             | UNEXPECTED |  | 
+quantizer.weight_proj.weight | UNEXPECTED |  | 
+project_hid.weight           | UNEXPECTED |  | 
+quantizer.weight_proj.bias   | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+[rank0]:[W607 06:39:32.427841514 Utils.hpp:112] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[rank1]:[W607 06:39:32.427839503 Utils.hpp:112] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[rank2]:[W607 06:39:32.427836173 Utils.hpp:112] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[rank3]:[W607 06:39:32.427832103 Utils.hpp:112] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+2026-06-07 06:39:32,990 - INFO - root - No checkpoint found, starting normally
+2026-06-07 06:39:32,990 - INFO - root - No checkpoint found, starting normally
+2026-06-07 06:39:32,990 - INFO - root - No checkpoint found, starting normally
+2026-06-07 06:39:32,990 - INFO - root - No checkpoint found, starting normally
+/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+2026-06-07 06:39:41,872 - INFO - root - Starting training loop with 0 steps already done.
+2026-06-07 06:39:41,872 - INFO - root - Starting training loop with 0 steps already done.
+2026-06-07 06:39:41,872 - INFO - root - Starting training loop with 0 steps already done.
+2026-06-07 06:39:41,872 - INFO - root - Starting training loop with 0 steps already done.
+Training:   0%|          | 0/12458 [00:00<?, ?it/s]Training:   0%|          | 0/12458 [00:04<?, ?it/s]
+Training:   0%|          | 0/12458 [00:00<?, ?it/s]Training:   0%|          | 0/12458 [00:04<?, ?it/s]
+[rank2]: Traceback (most recent call last):
+[rank2]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/training/training_ft_bicodec.py", line 186, in <module>
+[rank2]:     train(config=config)
+[rank2]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/training/training_ft_bicodec.py", line 138, in train
+[rank2]:     loss_g = compute_loss_gen(
+[rank2]:              ^^^^^^^^^^^^^^^^^
+[rank2]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/training/loss.py", line 147, in compute_loss_gen
+[rank2]:     loss += mel_loss(x, y)
+[rank2]:             ^^^^^^^^^^^^^^
+[rank2]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/training/loss.py", line 79, in forward
+[rank2]:     y_mels = mel_spectogramm_transform(y).squeeze(1)
+[rank2]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torchaudio/transforms/_transforms.py", line 629, in forward
+[rank2]:     specgram = self.spectrogram(waveform)
+[rank2]:                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torchaudio/transforms/_transforms.py", line 111, in forward
+[rank2]:     return F.spectrogram(
+[rank2]:            ^^^^^^^^^^^^^^
+[rank2]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torchaudio/functional/functional.py", line 123, in spectrogram
+[rank2]:     spec_f = torch.stft(
+[rank2]:              ^^^^^^^^^^^
+[rank2]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/functional.py", line 681, in stft
+[rank2]:     return _VF.stft(  # type: ignore[attr-defined]
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]: RuntimeError: stft input and window must be on the same device but got self on cpu and window on cuda:2
+[rank3]: Traceback (most recent call last):
+[rank3]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/training/training_ft_bicodec.py", line 186, in <module>
+[rank3]:     train(config=config)
+[rank3]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/training/training_ft_bicodec.py", line 138, in train
+[rank3]:     loss_g = compute_loss_gen(
+[rank3]:              ^^^^^^^^^^^^^^^^^
+[rank3]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/training/loss.py", line 147, in compute_loss_gen
+[rank3]:     loss += mel_loss(x, y)
+[rank3]:             ^^^^^^^^^^^^^^
+[rank3]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/training/loss.py", line 79, in forward
+[rank3]:     y_mels = mel_spectogramm_transform(y).squeeze(1)
+[rank3]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torchaudio/transforms/_transforms.py", line 629, in forward
+[rank3]:     specgram = self.spectrogram(waveform)
+[rank3]:                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torchaudio/transforms/_transforms.py", line 111, in forward
+[rank3]:     return F.spectrogram(
+[rank3]:            ^^^^^^^^^^^^^^
+[rank3]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torchaudio/functional/functional.py", line 123, in spectrogram
+[rank3]:     spec_f = torch.stft(
+[rank3]:              ^^^^^^^^^^^
+[rank3]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/functional.py", line 681, in stft
+[rank3]:     return _VF.stft(  # type: ignore[attr-defined]
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]: RuntimeError: stft input and window must be on the same device but got self on cpu and window on cuda:3
+Training:   0%|          | 0/12458 [00:00<?, ?it/s]Training:   0%|          | 0/12458 [00:04<?, ?it/s]
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/training/training_ft_bicodec.py", line 186, in <module>
+[rank1]:     train(config=config)
+[rank1]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/training/training_ft_bicodec.py", line 138, in train
+[rank1]:     loss_g = compute_loss_gen(
+[rank1]:              ^^^^^^^^^^^^^^^^^
+[rank1]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/training/loss.py", line 147, in compute_loss_gen
+[rank1]:     loss += mel_loss(x, y)
+[rank1]:             ^^^^^^^^^^^^^^
+[rank1]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/training/loss.py", line 79, in forward
+[rank1]:     y_mels = mel_spectogramm_transform(y).squeeze(1)
+[rank1]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torchaudio/transforms/_transforms.py", line 629, in forward
+[rank1]:     specgram = self.spectrogram(waveform)
+[rank1]:                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torchaudio/transforms/_transforms.py", line 111, in forward
+[rank1]:     return F.spectrogram(
+[rank1]:            ^^^^^^^^^^^^^^
+[rank1]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torchaudio/functional/functional.py", line 123, in spectrogram
+[rank1]:     spec_f = torch.stft(
+[rank1]:              ^^^^^^^^^^^
+[rank1]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/functional.py", line 681, in stft
+[rank1]:     return _VF.stft(  # type: ignore[attr-defined]
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]: RuntimeError: stft input and window must be on the same device but got self on cpu and window on cuda:1
+Training:   0%|          | 0/12458 [00:00<?, ?it/s]Training:   0%|          | 0/12458 [00:04<?, ?it/s]
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/training/training_ft_bicodec.py", line 186, in <module>
+[rank0]:     train(config=config)
+[rank0]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/training/training_ft_bicodec.py", line 138, in train
+[rank0]:     loss_g = compute_loss_gen(
+[rank0]:              ^^^^^^^^^^^^^^^^^
+[rank0]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/training/loss.py", line 147, in compute_loss_gen
+[rank0]:     loss += mel_loss(x, y)
+[rank0]:             ^^^^^^^^^^^^^^
+[rank0]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/training/loss.py", line 79, in forward
+[rank0]:     y_mels = mel_spectogramm_transform(y).squeeze(1)
+[rank0]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torchaudio/transforms/_transforms.py", line 629, in forward
+[rank0]:     specgram = self.spectrogram(waveform)
+[rank0]:                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torchaudio/transforms/_transforms.py", line 111, in forward
+[rank0]:     return F.spectrogram(
+[rank0]:            ^^^^^^^^^^^^^^
+[rank0]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torchaudio/functional/functional.py", line 123, in spectrogram
+[rank0]:     spec_f = torch.stft(
+[rank0]:              ^^^^^^^^^^^
+[rank0]:   File "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/.venv/lib64/python3.11/site-packages/torch/functional.py", line 681, in stft
+[rank0]:     return _VF.stft(  # type: ignore[attr-defined]
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]: RuntimeError: stft input and window must be on the same device but got self on cpu and window on cuda:0
+[rank0]:[W607 06:39:46.423687529 ProcessGroupNCCL.cpp:1575] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+srun: error: jzxh063: task 3: Exited with exit code 1
+srun: Terminating StepId=1952626.0
+slurmstepd: error: *** STEP 1952626.0 ON jzxh063 CANCELLED AT 2026-06-07T06:39:48 ***
+srun: error: jzxh063: tasks 1-2: Exited with exit code 1
+srun: error: jzxh063: task 0: Exited with exit code 1

@@ -1,21 +1,23 @@
 dataset:
-  nb_val: 4
+  nb_val: 200
   list_path_audio: 
-    - "/home/getalp/audibeal/panta_ft_bicodec/src/panta_ft_bicodec/data/data_ft"
+    - "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/data/epac/"
+    - "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/data/mls_dataset/"
+
 
 training:
   seed: 50
-  batch_size: 8
+  batch_size: 16
   lr: 0.00001
   epochs: 100
   run_name: "first run"
   experiment_name: "panta_ft_bicodec_log_with_l1"
   warmup_step_disciminator: 100
   warmup_step_generator: 5000
-  nb_steps: 200000
+  nb_steps: 100000
   min_lr: 0.000001
   eval_step: 5000
-  type_ddp: "single_node"
+  type_ddp: "jeanzay"
   load_model: null
 
 loss:

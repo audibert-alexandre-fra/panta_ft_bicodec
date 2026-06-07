@@ -1,4 +1,2 @@
-2026-06-02 11:44:30,832 - INFO - root - Starting training with config:1, False
-2026-06-02 11:44:30,836 - INFO - root - Logging Dataset22026-06-02 11:44:32,792 - INFO - root - Dataset initialized with 19704 audio files.22026-06-02 11:44:32,792 - INFO - root - Dataset initialized with 4 audio files.
-2026-06-02 11:44:32,792 - INFO - root - Build22026-06-02 11:44:36,621 - INFO - root - No checkpoint found, starting normally2026-06-02 11:44:39,832 - INFO - root - Starting training loop with 0 steps already done.
-
+2026-06-07 06:39:10,512 - INFO - root - Starting training with config:0, True
+22026-06-07 06:39:10,521 - INFO - root - Logging Dataset22026-06-07 06:39:16,738 - INFO - root - Dataset initialized with 797468 audio files.22026-06-07 06:39:16,891 - INFO - root - Dataset initialized with 200 audio files.22026-06-07 06:39:16,891 - INFO - root - Build22026-06-07 06:39:32,990 - INFO - root - No checkpoint found, starting normally22026-06-07 06:39:41,872 - INFO - root - Starting training loop with 0 steps already done.
