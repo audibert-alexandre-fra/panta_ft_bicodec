@@ -88,7 +88,7 @@ def train(config: dict):
         warmup_t=config["training"]["warmup_step_disciminator"]
     )
     mel_loss = MelSpectrogramLoss(weight=config["loss"]["weight_mel"])
-    mel_loss.set_device(device=device)
+    mel_loss.to(device=device)
     gan_loss = GANLoss(discriminator=disciminator)
     if config["training"]["load_model"] is not None:
         logging.info("load optimizers and schedulers")

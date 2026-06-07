@@ -38,7 +38,7 @@ class MelSpectrogramLoss(nn.Module):
         weight: float = 1.0,
     ):
         super().__init__()
-        self.mel_constructor = [
+        self.mel_constructor = nn.ModuleList([
             T.MelSpectrogram(
                 sample_rate=SAMPLING_RATE,
                 n_fft=w,
@@ -46,16 +46,11 @@ class MelSpectrogramLoss(nn.Module):
                 n_mels=n_mels
             )
             for w in window_lengths
-        ]
+        ])
         self.n_mels = n_mels
         self.loss_fn = loss_fn
         self.clamp_eps = clamp_eps
         self.weight = weight
-    
-    def set_device(self, device):
-        for mel_spec in self.mel_constructor:
-            print('set deivce!!')
-            mel_spec.to(device=device)
 
     def forward(self, x: Tensor, y: Tensor):
         """Computes mel loss between an estimate and a reference
