@@ -34,7 +34,7 @@ class MelSpectrogramLoss(nn.Module):
         n_mels: int = 80,
         window_lengths: List[int] = [512, 1024, 2048],
         loss_fn: typing.Callable = nn.L1Loss(),
-        clamp_eps: float = 1e-5,
+        clamp_eps: float = 1e-4,
         weight: float = 1.0,
     ):
         super().__init__()

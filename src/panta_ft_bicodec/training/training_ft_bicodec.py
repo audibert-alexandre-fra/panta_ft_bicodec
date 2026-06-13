@@ -128,20 +128,10 @@ def train(config: dict):
         for batch in tqdm(dataloader_train, desc="Training"):
             batch = batch.to(device) 
             optimizer_discriminator.zero_grad()
-            with torch.no_grad():
-                with autocast("cuda"):
-                    outputs, _ = model(batch)
-            with autocast("cuda"):
-                loss_d = compute_loss_discriminative(x=outputs, y=batch, gan_loss=gan_loss)
-            scaler_discriminator.scale(loss_d).backward()
-            scaler_discriminator.unscale_(optimizer_discriminator)
-            nn.utils.clip_grad_norm_(disciminator.parameters(), max_norm=1.0)
-            scaler_discriminator.step(optimizer_discriminator)
-            scaler_discriminator.update()
-            scheduler_discriminator.step()
             optimizer_generator.zero_grad()
             with autocast("cuda"):
                 outputs, vq_metrics = model(batch)
+                loss_d = compute_loss_discriminative(x=outputs.detach(), y=batch, gan_loss=gan_loss)
                 loss_g = compute_loss_gen(
                     x=outputs,
                     y=batch,
@@ -150,9 +140,18 @@ def train(config: dict):
                     apply_gan=steps > config["training"]["warmup_step_generator"]
                 )
                 loss_g += vq_metrics["vq_loss"]
+            # Update
+            scaler_discriminator.scale(loss_d).backward()
+            scaler_discriminator.unscale_(optimizer_discriminator)
+            nn.utils.clip_grad_norm_(disciminator.parameters(), max_norm=1e2)
+            scaler_discriminator.step(optimizer_discriminator)
+            scaler_discriminator.update()
+            scheduler_discriminator.step()
+
+            # Update
             scaler_generator.scale(loss_g).backward()
             scaler_generator.unscale_(optimizer_generator)
-            nn.utils.clip_grad_norm_(model.model.module.get_parameter_ft_bicodec(), max_norm=1.0)
+            nn.utils.clip_grad_norm_(model.model.module.get_parameter_ft_bicodec(), max_norm=1e3)
             scaler_generator.step(optimizer_generator)
             scaler_generator.update()
             scheduler_generator.step()

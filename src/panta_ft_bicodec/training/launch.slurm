@@ -5,12 +5,12 @@
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=8
 #SBATCH --hint=nomultithread
-#SBATCH --time=20:00:00
+#SBATCH --time=01:00:00
 #SBATCH --output=./logs_slurm/first.out
 #SBATCH --error=./logs_slurm/first.err
-#SBATCH --account=spp@h100
+#SBATCH --account=fev@a100
 #SBATCH --mail-type=BEGIN,FAIL,ABORT,END
-#SBATCH --constraint=h100
+#SBATCH --constraint=a100
 
 module purge
 module load arch/a100
