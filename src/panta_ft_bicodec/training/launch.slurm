@@ -20,6 +20,7 @@ set -x -e
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export TORCH_NCCL_ASYNC_ERROR_HANDLING=1 
 export PYTORCH_ALLOC_CONF=expandable_segments:True
+export NCCL_NET_PLUGIN=none  # désactive le plugin réseau
 
 source ../../../.venv/bin/activate
 srun python -u training_ft_bicodec.py

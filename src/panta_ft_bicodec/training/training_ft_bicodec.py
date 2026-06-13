@@ -58,7 +58,7 @@ def train(config: dict):
         logging.info("Load model")
         model.load_trained_model(str(current_path / "checkpoints" / config["training"]["load_model"]) +".safetensors")
 
-    dist.barrier()  # ← synchroniser avant DDP
+    dist.barrier()  
     model.model = DDP(
         model.model,
         device_ids=[local_rank],
