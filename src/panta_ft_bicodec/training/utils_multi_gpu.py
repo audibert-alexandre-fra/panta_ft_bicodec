@@ -8,16 +8,17 @@ import logging
 
 
 def setup_distributed() -> torch.device:
-    local_rank = idr_torch.local_rank
-    torch.cuda.set_device(local_rank)          # ← AVANT init_process_group
-    
+    """
+    Setup the distributed training environment. On Jean Zay
+    """
     dist.init_process_group(
         backend="nccl",
         init_method="env://",
         world_size=idr_torch.size,
         rank=idr_torch.rank,
-        device_id=torch.device(f"cuda:{local_rank}"),  # ← ajout clé
     )
+    local_rank = idr_torch.local_rank
+    torch.cuda.set_device(local_rank)
     return torch.device(f"cuda:{local_rank}")
 
 
