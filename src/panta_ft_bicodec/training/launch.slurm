@@ -21,6 +21,9 @@ export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export TORCH_NCCL_ASYNC_ERROR_HANDLING=1 
 export PYTORCH_ALLOC_CONF=expandable_segments:True
 export NCCL_NET_PLUGIN=none  # désactive le plugin réseau
+export NCCL_SHM_DISABLE=1        # désactive shared memory NCCL
+export NCCL_P2P_DISABLE=1        # désactive peer-to-peer entre GPU
+export NCCL_DEBUG=WARN
 
 source ../../../.venv/bin/activate
 srun python -u training_ft_bicodec.py
