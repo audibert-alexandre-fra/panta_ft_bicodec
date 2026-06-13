@@ -8,7 +8,7 @@
 #SBATCH --time=01:00:00
 #SBATCH --output=./logs_slurm/first.out
 #SBATCH --error=./logs_slurm/first.err
-#SBATCH --account=fev@a100
+#SBATCH --account=oou@a100
 #SBATCH --mail-type=BEGIN,FAIL,ABORT,END
 #SBATCH --constraint=a100
 
