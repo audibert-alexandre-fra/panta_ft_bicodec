@@ -1,2 +1,15 @@
-2026-06-07 06:39:10,512 - INFO - root - Starting training with config:0, True
-22026-06-07 06:39:10,521 - INFO - root - Logging Dataset22026-06-07 06:39:16,738 - INFO - root - Dataset initialized with 797468 audio files.22026-06-07 06:39:16,891 - INFO - root - Dataset initialized with 200 audio files.22026-06-07 06:39:16,891 - INFO - root - Build22026-06-07 06:39:32,990 - INFO - root - No checkpoint found, starting normally22026-06-07 06:39:41,872 - INFO - root - Starting training loop with 0 steps already done.
+2026-06-12 09:44:39,590 - INFO - root - Starting training with config:1, False2026-06-12 09:44:39,595 - INFO - root - Logging Dataset
+22026-06-12 09:44:43,907 - INFO - root - Dataset initialized with 797468 audio files.2026-06-12 09:44:43,959 - INFO - root - Dataset initialized with 200 audio files.
+2026-06-12 09:44:43,959 - INFO - root - Build
+22026-06-12 09:44:54,767 - INFO - root - No checkpoint found, starting normally22026-06-12 09:45:04,501 - INFO - root - Starting training loop with 0 steps already done.
+2026-06-12 13:41:25,177 - INFO - root -  Evaluation 1
+2026-06-12 13:41:30,131 - INFO - root - Validation metrics at step 1: {'mel_loss': 463.59514676607574, 'vq_usage': 0.9902391410444119, 'loss_vq': nan, 'discriminator_loss': tensor(1.6832, device='cuda:1')}
+2026-06-12 13:41:30,131 - INFO - root -  Steps: 12458
+2026-06-12 17:49:29,013 - INFO - root -  Evaluation 2
+2026-06-12 17:49:33,971 - INFO - root - Validation metrics at step 2: {'mel_loss': 650.9462421123798, 'vq_usage': 0.9908491947291361, 'loss_vq': nan, 'discriminator_loss': tensor(0.0246, device='cuda:1')}2026-06-12 17:49:33,988 - INFO - root - Validation metr2026-06-12 21:54:52,642 - INFO - root -  Evaluation 3
+2026-06-12 21:54:57,575 - INFO - root - Validation metrics at step 3: {'mel_loss': nan, 'vq_usage': 0.9896290873596877, 'loss_vq': nan, 'discriminator_loss': tensor(nan, device='cuda:3')}
+2026-06-12 21:542026-06-12 21:54:57,590 - INFO - root 2026-06-13 02:00:16,986 - INFO - root -  Evaluation 4
+2026-06-13 02:00:22,217 - INFO - root - Validation metrics at step 4: {'mel_loss': nan, 'vq_usage': 0.9902391410444119, 'loss_vq': nan, 'discriminator_loss': tensor(nan, device='cuda:2')}
+2026-06-13 02:00:22,217 - INFO - root -  Steps: 49832
+- Validation metrics at step 4: {'mel_loss': nan, 'vq_usage': 0.9902391410444119, 'loss_vq': nan, 'discriminator_loss': tensor(nan, device='cuda:0')}
+2026-06-13 02:00:22,217 - INFO - root -  Steps: 49832

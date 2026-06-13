@@ -10,19 +10,3 @@ Unexpected tensor: quantizer.cluster_size
 Missing tensor: mel_transformer.spectrogram.window
 Missing tensor: mel_transformer.mel_scale.fb
 Unexpected tensor: quantizer.cluster_size
-set deivce!!
-set deivce!!
-set deivce!!
-set deivce!!
-set deivce!!
-set deivce!!
-set deivce!!
-set deivce!!
-set deivce!!
-set deivce!!
-set deivce!!
-set deivce!!
-{'mel_loss': 596.6070181039663, 'vq_usage': 0.9896290873596877, 'loss_vq': nan}
-{'mel_loss': 596.6070181039663, 'vq_usage': 0.9896290873596877, 'loss_vq': nan}
-{'mel_loss': 596.6070181039663, 'vq_usage': 0.9896290873596877, 'loss_vq': nan}
-{'mel_loss': 596.6070181039663, 'vq_usage': 0.9896290873596877, 'loss_vq': nan}

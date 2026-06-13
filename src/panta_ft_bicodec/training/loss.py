@@ -154,25 +154,30 @@ def compute_loss_discriminative(x, y, gan_loss):
 class ValidationOutput:
     mel_loss: float
     vq_usage: float
-    loss_vq: float 
+    loss_vq: float
+    discriminator_loss: float
 
 
 
 @torch.inference_mode
-def eval_model(dataloader, model, mel_loss, device) -> ValidationOutput:
+def eval_model(dataloader, model, mel_loss, gan_loss, device) -> ValidationOutput:
     model.model.eval()
     total_mel_loss = 0
     loss_vq = 0
     vq_usage = []
+    loss_disciminator = 0
     for batch in dataloader:
         batch = batch.to(device)
         outputs, vq_metric = model(batch)
         total_mel_loss += compute_loss_gen(outputs, batch, mel_loss=mel_loss, gan_loss=None, apply_gan=False).item()
         vq_usage.append(vq_metric["indices"])
+        loss_disciminator += gan_loss.discriminator_loss(outputs, batch)
         loss_vq += vq_metric["vq_loss"].item()
+    model.model.train()
     return ValidationOutput(
         mel_loss=total_mel_loss / len(dataloader),
         vq_usage=torch.cat(vq_usage).flatten().unique().shape[0]/8196,
+        discriminator_loss=loss_disciminator / len(dataloader),
         loss_vq=loss_vq / len(dataloader)
     )
 

@@ -105,12 +105,18 @@ def train(config: dict):
         logging.info("No checkpoint found, starting normally")
         steps = 0
         epoch = 0
-    val_metric = asdict(eval_model(dataloader=dataloader_val, model=model, mel_loss=mel_loss, device=device))  # Eval avant le début de l'entraînement
-    print(val_metric)
+    val_metric = asdict(
+        eval_model(dataloader=dataloader_val,
+        model=model,
+        mel_loss=mel_loss,
+        gan_loss=gan_loss,
+        device=device)
+    )  # Eval avant le début de l'entraînement
     if is_main_process:
         mlflow.set_experiment(config["training"]["experiment_name"])
         mlflow.start_run(run_name=config["training"]["run_name"])
         mlflow.log_dict(config, "config.json")
+        logging.info(f"Validation metrics at step {epoch}: {val_metric}")
         mlflow.log_metrics(val_metric, step=steps)
     dist.barrier()
     logging.info(f"Starting training loop with {steps} steps already done.")
@@ -153,10 +159,17 @@ def train(config: dict):
             steps += 1
             if steps >= config["training"]["nb_steps"]:
                 break
+        epoch += 1
+        logging.info(f" Evaluation {epoch}")
+        val_metric = asdict(eval_model(
+            dataloader=dataloader_val,
+            model=model,
+            mel_loss=mel_loss,
+            gan_loss=gan_loss,
+            device=device))
+        logging.info(f"Validation metrics at step {epoch}: {val_metric}")
+        logging.info(f" Steps: {steps}")
         if is_main_process:
-            logging.info(f" Evaluation {epoch}")
-            val_metric = asdict(eval_model(dataloader=dataloader_val, model=model, mel_loss=mel_loss, device=device))
-            logging.info(f"Validation metrics at step {epoch}: {val_metric}")
             mlflow.log_metrics(val_metric, step=steps)
             path_to_save = Path(__file__).resolve().parent / "checkpoints" / f"val_loss_{val_metric['mel_loss']:.0f}_lr_{epoch}"
             state_dict = {
@@ -164,7 +177,6 @@ def train(config: dict):
                 if'mel_transformer' not in k
             }
             save_file(state_dict,  Path(f"{path_to_save}.safetensors"))
-            epoch += 1
             save_optimizers_and_steps(
                 optimizer_generator=optimizer_generator,
                 optimizer_discriminator=optimizer_discriminator,
