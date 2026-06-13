@@ -123,8 +123,7 @@ def train(config: dict):
     dist.barrier()
     logging.info(f"Starting training loop with {steps} steps already done.")
 
-    scaler_generator = GradScaler('cuda')
-    scaler_discriminator = GradScaler('cuda')
+    scaler = GradScaler('cuda')
     while steps < config["training"]["nb_steps"]:
         sampler_train.set_epoch(epoch)
         for batch in tqdm(dataloader_train, desc="Training"):
@@ -139,24 +138,23 @@ def train(config: dict):
                     y=batch,
                     mel_loss=mel_loss,
                     gan_loss=gan_loss,
-                    apply_gan=steps > config["training"]["warmup_step_generator"]
+                    apply_gan=True
                 )
                 loss_g += vq_metrics["vq_loss"]
             # Update
-            scaler_discriminator.scale(loss_d).backward()
-            scaler_discriminator.unscale_(optimizer_discriminator)
+            scaler.scale(loss_d).backward()
+            scaler.unscale_(optimizer_discriminator)
             nn.utils.clip_grad_norm_(disciminator.parameters(), max_norm=1e2)
-            scaler_discriminator.step(optimizer_discriminator)
-            scaler_discriminator.update()
+            scaler.step(optimizer_discriminator)
             scheduler_discriminator.step()
 
             # Update
-            scaler_generator.scale(loss_g).backward()
-            scaler_generator.unscale_(optimizer_generator)
+            scaler.scale(loss_g).backward()
+            scaler.unscale_(optimizer_generator)
             nn.utils.clip_grad_norm_(model.model.module.get_parameter_ft_bicodec(), max_norm=1e3)
-            scaler_generator.step(optimizer_generator)
-            scaler_generator.update()
+            scaler.step(optimizer_generator)
             scheduler_generator.step()
+            scaler.update()
             steps += 1
             if steps >= config["training"]["nb_steps"]:
                 break
