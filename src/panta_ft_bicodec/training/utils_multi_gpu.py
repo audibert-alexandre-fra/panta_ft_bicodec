@@ -16,6 +16,7 @@ def setup_distributed() -> torch.device:
         init_method="env://",
         world_size=idr_torch.size,
         rank=idr_torch.rank,
+        device_id=torch.device(f"cuda:{idr_torch.local_rank}")
     )
     local_rank = idr_torch.local_rank
     torch.cuda.set_device(local_rank)
