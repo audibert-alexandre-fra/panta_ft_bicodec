@@ -118,14 +118,17 @@ class GANLoss(nn.Module):
         return loss_d
 
     def generator_loss(self, fake, real):
+        for p in self.discriminator.parameters():
+            p.requires_grad_(False)
         d_fake, d_real = self.forward(fake, real)
+        for p in self.discriminator.parameters():
+            p.requires_grad_(True)
 
         loss_g = 0
         for x_fake in d_fake:
             loss_g += torch.mean((1 - x_fake[-1]) ** 2)
 
         loss_feature = 0
-
         for i in range(len(d_fake)):
             for j in range(len(d_fake[i]) - 1):
                 loss_feature += F.l1_loss(d_fake[i][j], d_real[i][j].detach())
