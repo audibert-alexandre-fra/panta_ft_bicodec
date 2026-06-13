@@ -18,7 +18,7 @@ module load arch/a100
 set -x -e
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
-export NCCL_ASYNC_ERROR_HANDLING=1
+export TORCH_NCCL_ASYNC_ERROR_HANDLING=1 
 export PYTORCH_ALLOC_CONF=expandable_segments:True
 
 source ../../../.venv/bin/activate
