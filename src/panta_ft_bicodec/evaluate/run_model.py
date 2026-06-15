@@ -18,6 +18,7 @@ def build_audio_baseline(path_to_model: str):
     device = get_available_device()
     logging.info(f" Device used during evaluation: {device}")
     model = BiCodecTokenizer(device=device)
+    print(path_to_model)
     model.load_trained_model(path_to_model=path_to_model)
     os.makedirs("audio_trained", exist_ok=True)
     current_dir = current_path.parent / "data" / "test_data"
