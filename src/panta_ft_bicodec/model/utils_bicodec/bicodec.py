@@ -142,15 +142,14 @@ class BiCodec(nn.Module):
         Returns:
             dict: A dictionary containing the reconstruction, features, and other metrics.
         """
-        with torch.no_grad():
-            feat = batch["feat"]
-            # Extract speaker embeddings from the reference waveforms
-            mel = self.mel_transformer(batch["ref_wav"]).squeeze(1)
-            _, d_vector = self.speaker_encoder(mel.transpose(1, 2))
+        feat = batch["feat"]
+        # Extract speaker embeddings from the reference waveforms
+        mel = self.mel_transformer(batch["ref_wav"]).squeeze(1)
+        _, d_vector = self.speaker_encoder(mel.transpose(1, 2))
 
-            # Encode the features and quantize them
-            z = self.encoder(feat.transpose(1, 2))
-            vq_outputs = self.quantizer(z)
+        # Encode the features and quantize them
+        z = self.encoder(feat.transpose(1, 2))
+        vq_outputs = self.quantizer(z)
         conditions = d_vector
         x = self.prenet(vq_outputs["z_q"], conditions)
         x = x + conditions.unsqueeze(-1)
