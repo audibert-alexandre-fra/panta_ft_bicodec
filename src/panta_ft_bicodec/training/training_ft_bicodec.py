@@ -144,14 +144,14 @@ def train(config: dict):
             # Update
             scaler.scale(loss_d).backward()
             scaler.unscale_(optimizer_discriminator)
-            nn.utils.clip_grad_norm_(disciminator.parameters(), max_norm=1e2)
+            nn.utils.clip_grad_norm_(disciminator.parameters(), max_norm=1e1)
             scaler.step(optimizer_discriminator)
             scheduler_discriminator.step()
 
             # Update
             scaler.scale(loss_g).backward()
             scaler.unscale_(optimizer_generator)
-            nn.utils.clip_grad_norm_(model.model.module.get_parameter_ft_bicodec(), max_norm=1e3)
+            nn.utils.clip_grad_norm_(model.model.module.get_parameter_ft_bicodec(), max_norm=1e2)
             scaler.step(optimizer_generator)
             scheduler_generator.step()
             scaler.update()
