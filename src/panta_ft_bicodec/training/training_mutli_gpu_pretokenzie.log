@@ -1,17 +1,4 @@
-2026-06-19 00:41:08,437 - INFO - root - Starting training with config:3, False
-2026-06-19 00:41:08,448 - INFO - root - Logging Dataset22026-06-19 00:41:14,383 - INFO - root - Dataset initialized with 713577 audio files.22026-06-19 00:41:14,406 - INFO - root - Dataset initialized with 200 audio files.
-2026-06-19 00:41:14,406 - INFO - root - Build22026-06-19 00:41:25,653 - INFO - root - No checkpoint found, starting normally22026-06-19 00:41:38,780 - INFO - root - Starting training loop with 0 steps already done.
-2026-06-19 02:09:00,349 - INFO - root -  Evaluation 1
-2026-06-19 02:09:05,798 - INFO - root - Validation metrics at step 1: {'mel_loss': 283.2628826904297, 'vq_usage': 0.9937774524158126, 'loss_vq': nan, 'discriminator_loss': tensor(3.7133, device='cuda:0')}
-2026-06-19 02:09:05,800 - INFO - root -  Steps: 11147
-2026-06-19 03:36:24,362 - INFO - root -  Evaluation 2
-2026-06-19 03:36:29,690 - INFO - root - Validation metrics at step 2: {'mel_loss': 284.71153747558594, 'vq_usage': 0.9901171303074671, 'loss_vq': nan, 'discriminator_loss': tensor(3.5375, device='cuda:1')}
-2026-06-19 03:36:29,692 - INFO - root -  Steps: 22294
-2026-06-19 05:03:48,702 - INFO - root -  Evaluation 3
-2026-06-19 05:03:54,211 - INFO - root - Validation metrics at step 3: {'mel_loss': 270.96489318847654, 'vq_usage': 0.9923133235724744, 'loss_vq': nan, 'discriminator_loss': tensor(3.3288, device='cuda:3')}
-2026-06-19 05:03:54,217 - INFO - root -  Steps: 33441
-2026-06-19 06:31:15,552 - INFO - root -  Evaluation 4
-2026-06-19 06:31:20,851 - INFO - root - Validation metrics at step 4: {'mel_loss': 267.40022216796876, 'vq_usage': 0.9910932162030258, 'loss_vq': nan, 'discriminator_loss': tensor(3.3123, device='cuda:3')}
-2026-06-19 06:31:20,851 - INFO - root -  Steps: 44588
-cs at step 4: {'mel_loss': 267.40022216796876, 'vq_usage': 0.9910932162030258, 'loss_vq': nan, 'discriminator_loss': tensor(3.3123, device='cuda:0')}
-2026-06-19 06:31:20,837 - INFO - root -  Steps: 44588
+2026-06-19 08:58:25,622 - INFO - root - Starting training with config:1, False
+2026-06-19 08:58:25,643 - INFO - root - Logging Dataset22026-06-19 08:58:29,638 - INFO - root - Dataset initialized with 713577 audio files.
+2026-06-19 08:58:29,662 - INFO - root - Dataset initialized with 200 audio files.
+2026-06-19 08:58:29,662 - INFO - root - Build
