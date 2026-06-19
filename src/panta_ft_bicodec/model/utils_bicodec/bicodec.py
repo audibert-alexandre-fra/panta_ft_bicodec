@@ -65,10 +65,14 @@ class BiCodec(nn.Module):
         self.prenet = prenet
         self.postnet = postnet
         self.init_mel_transformer(mel_params)
-        self.encoder.requires_grad_(False)
-        self.quantizer.requires_grad_(False)
-        self.speaker_encoder.requires_grad_(False)
+        # self.encoder.requires_grad_(False)
+        # self.quantizer.requires_grad_(False)
+        # self.speaker_encoder.requires_grad_(False)
         self.postnet.requires_grad_(False)
+        self.speaker_encoder.pool.requires_grad_(False)
+        self.speaker_encoder.bn.requires_grad_(False)
+        self.speaker_encoder.linear.requires_grad_(False)
+        self.speaker_encoder.bn2.requires_grad_(False)  # no-op si Identity
 
 
     @classmethod
@@ -115,7 +119,6 @@ class BiCodec(nn.Module):
 
         return model
 
-
     def get_parameter(self):
         for param in self.prenet.parameters():
             yield param
@@ -131,7 +134,8 @@ class BiCodec(nn.Module):
             yield param
         for param in self.decoder.parameters():
             yield param
-
+        for param in self.speaker_encoder.parameters():
+            yield param
 
     def forward(self, batch: Dict[str, Any]) -> Dict[str, Any]:
         """

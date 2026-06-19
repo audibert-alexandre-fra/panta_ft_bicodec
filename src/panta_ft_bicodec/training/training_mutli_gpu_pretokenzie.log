@@ -1,4 +1,4 @@
-2026-06-15 08:11:55,652 - INFO - root - Starting training with config:1, False22026-06-15 08:11:55,656 - INFO - root - Logging Dataset22026-06-15 08:11:59,787 - INFO - root - Dataset initialized with 797468 audio files.22026-06-15 08:11:59,858 - INFO - root - Dataset initialized with 200 audio files.22026-06-15 08:11:59,858 - INFO - root - Build2026-06-15 08:12:09,937 - INFO - root - No checkpoint found, starting normally
-22026-06-15 08:12:19,648 - INFO - root - Starting training loop with 0 steps already done.
-767277644, 'vq_usage': 0.9896290873596877, 'loss_vq': nan, 'discriminator_loss': tensor(8.1150, device='cuda:0')}
-2026-06-15 08:12:19,647 - INFO - root - Starting training loop with 0 steps already done.
+2026-06-19 08:58:25,622 - INFO - root - Starting training with config:1, False
+2026-06-19 08:58:25,643 - INFO - root - Logging Dataset22026-06-19 08:58:29,638 - INFO - root - Dataset initialized with 713577 audio files.
+2026-06-19 08:58:29,662 - INFO - root - Dataset initialized with 200 audio files.
+2026-06-19 08:58:29,662 - INFO - root - Build

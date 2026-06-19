@@ -63,8 +63,6 @@ def train(config: dict):
         model.model,
         device_ids=[local_rank],
         output_device=local_rank,
-        find_unused_parameters=True,
-        skip_all_reduce_unused_params=True
     )
     disciminator = Discriminator()
     disciminator.to(device=device)
@@ -122,39 +120,42 @@ def train(config: dict):
         mlflow.log_metrics(val_metric, step=steps)
     dist.barrier()
     logging.info(f"Starting training loop with {steps} steps already done.")
-
-    scaler = GradScaler('cuda')
     while steps < config["training"]["nb_steps"]:
         sampler_train.set_epoch(epoch)
         for batch in tqdm(dataloader_train, desc="Training"):
-            batch = batch.to(device) 
+            batch = batch.to(device)
             optimizer_discriminator.zero_grad()
             optimizer_generator.zero_grad()
-            with autocast("cuda"):
-                outputs, vq_metrics = model(batch)
-                loss_d = compute_loss_discriminative(x=outputs.detach(), y=batch, gan_loss=gan_loss)
-                loss_g = compute_loss_gen(
-                    x=outputs,
-                    y=batch,
-                    mel_loss=mel_loss,
-                    gan_loss=gan_loss,
-                    apply_gan=True
-                )
-                loss_g += vq_metrics["vq_loss"]
-            # Update
-            scaler.scale(loss_d).backward()
-            scaler.unscale_(optimizer_discriminator)
-            nn.utils.clip_grad_norm_(disciminator.parameters(), max_norm=1e1)
-            scaler.step(optimizer_discriminator)
+            outputs, vq_metrics = model(batch)
+            loss_d = compute_loss_discriminative(
+                x=outputs.detach(),
+                y=batch,
+                gan_loss=gan_loss
+            )
+            loss_g = compute_loss_gen(
+                x=outputs,
+                y=batch,
+                mel_loss=mel_loss,
+                gan_loss=gan_loss,
+                apply_gan=True
+            )
+            loss_g += vq_metrics["vq_loss"]
+            # Update discriminator
+            loss_d.backward()
+            nn.utils.clip_grad_norm_(
+                disciminator.parameters(),
+                max_norm=1e1
+            )
+            optimizer_discriminator.step()
             scheduler_discriminator.step()
-
-            # Update
-            scaler.scale(loss_g).backward()
-            scaler.unscale_(optimizer_generator)
-            nn.utils.clip_grad_norm_(model.model.module.get_parameter_ft_bicodec(), max_norm=1e2)
-            scaler.step(optimizer_generator)
+            # Update generator
+            loss_g.backward()
+            nn.utils.clip_grad_norm_(
+                model.model.module.get_parameter_ft_bicodec(),
+                max_norm=1e2
+            )
+            optimizer_generator.step()
             scheduler_generator.step()
-            scaler.update()
             steps += 1
             if steps >= config["training"]["nb_steps"]:
                 break
