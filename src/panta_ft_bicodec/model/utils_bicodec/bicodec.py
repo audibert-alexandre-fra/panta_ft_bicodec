@@ -69,10 +69,10 @@ class BiCodec(nn.Module):
         # self.quantizer.requires_grad_(False)
         # self.speaker_encoder.requires_grad_(False)
         self.postnet.requires_grad_(False)
-        self.speaker_encoder.pool.requires_grad_(False)
-        self.speaker_encoder.bn.requires_grad_(False)
-        self.speaker_encoder.linear.requires_grad_(False)
-        self.speaker_encoder.bn2.requires_grad_(False)  # no-op si Identity
+        self.speaker_encoder.speaker_encoder.pool.requires_grad_(False)
+        self.speaker_encoder.speaker_encoder.bn.requires_grad_(False)
+        self.speaker_encoder.speaker_encoder.linear.requires_grad_(False)
+        self.speaker_encoder.speaker_encoder.bn2.requires_grad_(False)  # no-op si Identity
 
 
     @classmethod
