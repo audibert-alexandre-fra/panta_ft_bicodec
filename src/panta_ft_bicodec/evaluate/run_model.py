@@ -27,7 +27,6 @@ def build_audio_baseline(path_to_model: str):
         audio_reconstructed = model.detokenize(gobal_tokens, sementic_tokens)
         save_audio(audio_reconstructed, f"audio_trained/{file.stem}.wav", SAMPLING_RATE)
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("name_model", type=str)

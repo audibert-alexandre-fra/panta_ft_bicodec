@@ -70,6 +70,7 @@ class BiCodec(nn.Module):
         self.speaker_encoder.requires_grad_(False)
         self.postnet.requires_grad_(False)
 
+
     @classmethod
     def load_from_checkpoint(cls, model_dir: Path, **kwargs) -> "BiCodec":
         """
