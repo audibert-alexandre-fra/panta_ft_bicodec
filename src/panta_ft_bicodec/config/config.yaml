@@ -15,7 +15,7 @@ training:
   experiment_name: "panta_ft_bicodec_log_with_l1_high_lr"
   warmup_step_disciminator: 10000
   warmup_step_generator: 10000
-  nb_steps: 100000
+  nb_steps: 400000
   min_lr: 0.000005
   eval_step: 5000
   type_ddp: "jeanzay"
