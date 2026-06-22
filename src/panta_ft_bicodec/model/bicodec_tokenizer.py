@@ -63,7 +63,6 @@ class BiCodecTokenizer:
         state_dict = {k: v for k, v in state_dict.items() if "window" not in k}
         self.model.load_state_dict(state_dict, strict=False)
 
-
     def get_ref_clip(self, wav: np.ndarray) -> np.ndarray:
         """Get reference audio clip for speaker embedding."""
         ref_segment_length = (

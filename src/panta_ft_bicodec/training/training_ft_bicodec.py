@@ -54,9 +54,12 @@ def train(config: dict):
         num_workers=4
     )
     model = BiCodecTokenizer(device=device)
+    disciminator = Discriminator()
+    disciminator.to(device=device)
     if config["training"]["load_model"] is not None:
         logging.info("Load model")
         model.load_trained_model(str(current_path / "checkpoints" / config["training"]["load_model"]) +".safetensors")
+        disciminator.load(str(current_path / "checkpoints" / config["training"]["load_model"]) +"_disc.safetensors")
 
     dist.barrier()  
     model.model = DDP(
@@ -64,8 +67,6 @@ def train(config: dict):
         device_ids=[local_rank],
         output_device=local_rank,
     )
-    disciminator = Discriminator()
-    disciminator.to(device=device)
     disciminator = DDP(
         disciminator,
         device_ids=[local_rank],
@@ -172,9 +173,10 @@ def train(config: dict):
         if is_main_process:
             mlflow.log_metrics(val_metric, step=steps)
             path_to_save = Path(__file__).resolve().parent / "checkpoints" / f"val_loss_{val_metric['mel_loss']:.0f}_lr_{epoch}"
+            path_to_save_disc = str(Path(__file__).resolve().parent / "checkpoints" / f"val_loss_{val_metric['mel_loss']:.0f}_lr_{epoch}_disc.safetensors")
             state_dict = {
-                k: v for k, v in model.model.state_dict().items()
-                if'mel_transformer' not in k
+                k: v for k, v in model.model.module.state_dict().items()
+                if 'mel_transformer' not in k
             }
             save_file(state_dict,  Path(f"{path_to_save}.safetensors"))
             save_optimizers_and_steps(
@@ -186,6 +188,7 @@ def train(config: dict):
                 steps=steps,
                 checkpoint_path=Path(f"{path_to_save}.pt")
             )
+            disciminator.module.save(path_to_save_disc)
         dist.barrier()
     dist.barrier()
     dist.destroy_process_group()

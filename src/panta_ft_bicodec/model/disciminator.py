@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from einops import rearrange
 from torch.nn.utils import weight_norm
 import torchaudio.transforms as T
-
+from safetensors.torch import save_file, load_model
 from panta_ft_bicodec.constant import SAMPLING_RATE
 
 
@@ -172,13 +172,24 @@ class Discriminator(nn.Module):
         fmaps = [d(x) for d in self.discriminators]
         return fmaps
 
+    def save(self, path):
+        """Sauvegarde les poids du discriminator (state_dict natif, sans préfixe)."""
+        save_file(self.state_dict(), str(path))
+
+    def load(self, path, device: str = "cpu", strict: bool = True):
+        """Charge les poids du discriminator depuis un fichier .safetensors."""
+        load_model(self, str(path), strict=strict)
+    
+
 
 if __name__ == "__main__":
     disc = Discriminator()
-    x = torch.zeros(1, 1, int(SAMPLING_RATE * 4.99))
-    results = disc(x)
-    for i, result in enumerate(results):
-        print(f"disc{i}")
-        for i, r in enumerate(result):
-            print(r.shape, r.mean(), r.min(), r.max())
-        print()
+    disc.save(path="test.safetensors")
+    disc.load(path="test.safetensors")
+    # x = torch.zeros(1, 1, int(SAMPLING_RATE * 4.99))
+    # results = disc(x)
+    # for i, result in enumerate(results):
+    #     print(f"disc{i}")
+    #     for i, r in enumerate(result):
+    #         print(r.shape, r.mean(), r.min(), r.max())
+    #     print()
