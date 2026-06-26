@@ -133,22 +133,17 @@ def train(config: dict):
                 y=batch,
                 gan_loss=gan_loss
             )
+            gan_weight = max(0.0, min(1.0, (steps - 10_000) / 20_000))
+            apply_gan = gan_weight > 0.0
             loss_g = compute_loss_gen(
                 x=outputs,
                 y=batch,
                 mel_loss=mel_loss,
                 gan_loss=gan_loss,
-                apply_gan=True
+                apply_gan=apply_gan,
+                weights=gan_weight
             )
             loss_g += vq_metrics["vq_loss"]
-            # Update discriminator
-            loss_d.backward()
-            nn.utils.clip_grad_norm_(
-                disciminator.parameters(),
-                max_norm=1e1
-            )
-            optimizer_discriminator.step()
-            scheduler_discriminator.step()
             # Update generator
             loss_g.backward()
             nn.utils.clip_grad_norm_(
@@ -157,6 +152,14 @@ def train(config: dict):
             )
             optimizer_generator.step()
             scheduler_generator.step()
+            # Update discriminator
+            loss_d.backward()
+            nn.utils.clip_grad_norm_(
+                disciminator.parameters(),
+                max_norm=1e1
+            )
+            optimizer_discriminator.step()
+            scheduler_discriminator.step()
             steps += 1
             if steps >= config["training"]["nb_steps"]:
                 break
