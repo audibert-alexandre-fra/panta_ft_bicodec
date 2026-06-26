@@ -13,18 +13,17 @@ import shutil
 logging.basicConfig(level=logging.INFO)
 
 def build_audio_baseline():
-    current_path = current_dir = Path(__file__).resolve().parent
+    folder_dir_output = "repere_bicodec"
     device = get_available_device()
     logging.info(f" Device used during evaluation: {device}")
     model = BiCodecTokenizer(device=device) 
-    os.makedirs("audio_baseline", exist_ok=True)
-    current_dir = current_path.parent / "data" / "test_data"
-    os.makedirs('ref', exist_ok=True)
+    os.makedirs(folder_dir_output, exist_ok=True)
+    current_dir = Path("/home/getalp/audibeal/build_dataset_audio/repere")
     for index, file in enumerate(current_dir.glob("*.wav")):
-        shutil.copy(str(file), f'ref/{file.stem}.wav')
+        print(file)
         gobal_tokens, sementic_tokens = model.tokenize(str(file))
         audio_reconstructed = model.detokenize(gobal_tokens, sementic_tokens)
-        save_audio(audio_reconstructed, f"audio_baseline/{file.stem}.wav", SAMPLING_RATE)
+        save_audio(audio_reconstructed, f"{folder_dir_output}/{file.stem}.wav", SAMPLING_RATE)
 
 
 if __name__ == '__main__':

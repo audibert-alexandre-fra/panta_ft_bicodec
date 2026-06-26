@@ -13,19 +13,21 @@ import argparse
 logging.basicConfig(level=logging.INFO)
 
 def build_audio_baseline(path_to_model: str):
+    print("IN")
+    folder_to_save = "test"
     logging.info(f" model name {path_to_model}")
-    current_path = current_dir = Path(__file__).resolve().parent
-    device = get_available_device()
+    device = "cpu" #get_available_device()
     logging.info(f" Device used during evaluation: {device}")
     model = BiCodecTokenizer(device=device)
-    print(path_to_model)
     model.load_trained_model(path_to_model=path_to_model)
-    os.makedirs("audio_trained", exist_ok=True)
-    current_dir = current_path.parent / "data" / "test_data"
+    os.makedirs(folder_to_save, exist_ok=True)
+    current_dir = Path("ref") #Path("/home/getalp/audibeal/build_dataset_audio/repere")
     for index, file in enumerate(current_dir.glob("*.wav")):
         gobal_tokens, sementic_tokens = model.tokenize(str(file))
         audio_reconstructed = model.detokenize(gobal_tokens, sementic_tokens)
-        save_audio(audio_reconstructed, f"audio_trained/{file.stem}.wav", SAMPLING_RATE)
+        save_audio(audio_reconstructed, f"{folder_to_save}/{file.stem}.wav", SAMPLING_RATE)
+        if index > 10:
+            break
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

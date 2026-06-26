@@ -133,12 +133,12 @@ class GANLoss(nn.Module):
         for i in range(len(d_fake)):
             for j in range(len(d_fake[i]) - 1):
                 loss_feature += F.l1_loss(d_fake[i][j], d_real[i][j].detach())
-        return loss_g, loss_feature
+        return loss_g, 2 * loss_feature
 
 
 
 
-def compute_loss_gen(x, y, mel_loss, gan_loss, apply_gan=True):
+def compute_loss_gen(x, y, mel_loss, gan_loss, apply_gan=True, weights:int =1):
     min_len = min(x.shape[-1], y.shape[-1])
     x = x[..., :min_len]
     y = y[..., :min_len]
@@ -146,7 +146,7 @@ def compute_loss_gen(x, y, mel_loss, gan_loss, apply_gan=True):
     loss += mel_loss(x, y)
     if apply_gan:
         loss_g, loss_feature = gan_loss.generator_loss(fake=x, real=y)
-        loss += loss_g + loss_feature
+        loss += weights *(loss_g + loss_feature)
     return loss
 
 
