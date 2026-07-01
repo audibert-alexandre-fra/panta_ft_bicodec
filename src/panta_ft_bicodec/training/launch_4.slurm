@@ -21,4 +21,4 @@ export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export PYTORCH_ALLOC_CONF=expandable_segments:True
 
 source ../../../.venv/bin/activate
-srun python -u training_ft_bicodec.py config_4.yaml
+srun python -u training_ft_bicodec.py --config config_4.yaml
