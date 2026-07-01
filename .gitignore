@@ -19,3 +19,5 @@ src/panta_ft_bicodec/data/filter_data/*
 src/panta_ft_bicodec/training/mlruns/*
 src/panta_ft_bicodec/training/checkpoints/*
 src/panta_ft_bicodec/training/core*
+**/*.out
+**/*.err
