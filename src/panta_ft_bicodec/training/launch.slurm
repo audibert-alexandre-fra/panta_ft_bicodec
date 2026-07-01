@@ -6,8 +6,8 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --hint=nomultithread
 #SBATCH --time=20:00:00
-#SBATCH --output=./logs_slurm/first.out
-#SBATCH --error=./logs_slurm/first.err
+#SBATCH --output=./logs_slurm/final_gan_v2.out
+#SBATCH --error=./logs_slurm/final_gan_v2.err
 #SBATCH --account=oou@h100
 #SBATCH --mail-type=BEGIN,FAIL,ABORT,END
 #SBATCH --constraint=h100

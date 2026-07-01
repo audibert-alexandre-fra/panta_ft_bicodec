@@ -72,8 +72,8 @@ def train(config: dict):
         device_ids=[local_rank],
         output_device=local_rank,
     )
-    optimizer_generator = torch.optim.AdamW(model.model.module.get_parameter_ft_bicodec(), lr=config["training"]["lr"])
-    optimizer_discriminator = torch.optim.AdamW(disciminator.parameters(), lr=config["adversarial_model"]["lr"])
+    optimizer_generator = torch.optim.AdamW(model.model.module.get_parameter_ft_bicodec(), lr=config["training"]["lr"], betas=(0.8, 0.9))
+    optimizer_discriminator = torch.optim.AdamW(disciminator.parameters(), lr=config["adversarial_model"]["lr"], betas=(0.8, 0.9))
     total_steps = config["training"]["nb_steps"]
     scheduler_generator = CosineSchedulerWithInternalState(
         optimizer_generator, 
@@ -128,12 +128,22 @@ def train(config: dict):
             optimizer_discriminator.zero_grad()
             optimizer_generator.zero_grad()
             outputs, vq_metrics = model(batch)
+
             loss_d = compute_loss_discriminative(
                 x=outputs.detach(),
                 y=batch,
                 gan_loss=gan_loss
             )
-            gan_weight = max(0.0, min(1.0, (steps - 10_000) / 20_000))
+            # Update discriminator
+            loss_d.backward()
+            nn.utils.clip_grad_norm_(
+                disciminator.parameters(),
+                max_norm=1
+            )
+            optimizer_discriminator.step()
+            scheduler_discriminator.step()
+
+            gan_weight = max(0.0, min(1.0, (steps - 20_000) / 10_000))
             apply_gan = gan_weight > 0.0
             loss_g = compute_loss_gen(
                 x=outputs,
@@ -148,18 +158,10 @@ def train(config: dict):
             loss_g.backward()
             nn.utils.clip_grad_norm_(
                 model.model.module.get_parameter_ft_bicodec(),
-                max_norm=1e2
+                max_norm=1
             )
             optimizer_generator.step()
             scheduler_generator.step()
-            # Update discriminator
-            loss_d.backward()
-            nn.utils.clip_grad_norm_(
-                disciminator.parameters(),
-                max_norm=1e1
-            )
-            optimizer_discriminator.step()
-            scheduler_discriminator.step()
             steps += 1
             if steps >= config["training"]["nb_steps"]:
                 break
@@ -174,9 +176,10 @@ def train(config: dict):
         logging.info(f"Validation metrics at step {epoch}: {val_metric}")
         logging.info(f" Steps: {steps}")
         if is_main_process:
+            path_to_save_folder = "checkpoints"
             mlflow.log_metrics(val_metric, step=steps)
-            path_to_save = Path(__file__).resolve().parent / "checkpoints" / f"val_loss_{val_metric['mel_loss']:.0f}_lr_{epoch}"
-            path_to_save_disc = str(Path(__file__).resolve().parent / "checkpoints" / f"val_loss_{val_metric['mel_loss']:.0f}_lr_{epoch}_disc.safetensors")
+            path_to_save = Path(__file__).resolve().parent / path_to_save_folder / f"val_loss_{val_metric['mel_loss']:.0f}_lr_{epoch}"
+            path_to_save_disc = str(Path(__file__).resolve().parent / path_to_save_folder / f"val_loss_{val_metric['mel_loss']:.0f}_lr_{epoch}_disc.safetensors")
             state_dict = {
                 k: v for k, v in model.model.module.state_dict().items()
                 if 'mel_transformer' not in k

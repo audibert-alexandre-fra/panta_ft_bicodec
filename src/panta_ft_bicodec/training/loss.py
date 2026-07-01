@@ -28,32 +28,31 @@ class MelSpectrogramLoss(nn.Module):
         Weight of this loss, by default 1.0
 
     """
-
     def __init__(
         self,
-        n_mels: int = 80,
-        window_lengths: List[int] = [512, 1024, 2048],
+        window_lengths: List[int] = [32, 64, 128, 256, 512, 1024, 2048],
+        n_mels: List[int] = [5, 10, 20, 40, 80, 160, 320],
         loss_fn: typing.Callable = nn.L1Loss(),
         clamp_eps: float = 1e-5,
         weight: float = 1.0,
-    ):
+    ) -> None:
         super().__init__()
         self.mel_constructor = nn.ModuleList([
             T.MelSpectrogram(
                 sample_rate=SAMPLING_RATE,
                 n_fft=w,
                 hop_length=w//4,
-                n_mels=n_mels,
+                n_mels=mel,
                 power=1
             )
-            for w in window_lengths
+            for (w, mel) in zip(window_lengths, n_mels)
         ])
         self.n_mels = n_mels
         self.loss_fn = loss_fn
         self.clamp_eps = clamp_eps
         self.weight = weight
 
-    def forward(self, x: Tensor, y: Tensor):
+    def forward(self, x: Tensor, y: Tensor) -> Tensor:
         """Computes mel loss between an estimate and a reference
         signal.
 
@@ -84,7 +83,7 @@ class MelSpectrogramLoss(nn.Module):
 
 class L1LossWeighted(nn.L1Loss):
 
-    def __init__(self, weight: float = 1.0, **kwargs):
+    def __init__(self, weight: float = 1.0, **kwargs) -> Tensor:
         self.weight = weight
         super().__init__(**kwargs)
 
@@ -100,7 +99,7 @@ class GANLoss(nn.Module):
     discriminator and the generator in separate functions.
     """
 
-    def __init__(self, discriminator):
+    def __init__(self, discriminator: nn.Module) -> None:
         super().__init__()
         self.discriminator = discriminator
 
