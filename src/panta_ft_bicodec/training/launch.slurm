@@ -1,13 +1,13 @@
 #!/bin/bash
 #SBATCH --job-name=TrainingBicodec
-#SBATCH --nodes=2
+#SBATCH --nodes=1
 #SBATCH --gres=gpu:4
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=8
 #SBATCH --hint=nomultithread
-#SBATCH --time=20:00:00
-#SBATCH --output=./logs_slurm/final_gan_v2.out
-#SBATCH --error=./logs_slurm/final_gan_v2.err
+#SBATCH --time=00:10:00
+#SBATCH --output=./logs_slurm/test_1.out
+#SBATCH --error=./logs_slurm/test_2.err
 #SBATCH --account=oou@h100
 #SBATCH --mail-type=BEGIN,FAIL,ABORT,END
 #SBATCH --constraint=h100
