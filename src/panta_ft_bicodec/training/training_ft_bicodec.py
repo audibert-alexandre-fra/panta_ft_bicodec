@@ -171,7 +171,6 @@ def train(config: dict):
             optimizer_generator.step()
             scheduler_generator.step()
             steps += 1
-            break
             if steps >= config["training"]["nb_steps"]:
                 break
         epoch += 1
@@ -205,7 +204,6 @@ def train(config: dict):
                 checkpoint_path=Path(f"{path_to_save}.pt")
             )
             disciminator.module.save(path_to_save_disc)
-            raise ValueError("Stop training after one epoch for testing")
         dist.barrier()
     dist.barrier()
     dist.destroy_process_group()
