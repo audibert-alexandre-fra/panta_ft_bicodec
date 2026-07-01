@@ -19,6 +19,8 @@ training:
   eval_step: 5000
   type_ddp: "jeanzay"
   load_model: null
+  discriminator_norm_gradient: 10
+  generator_norm_gradient: 10
 
 loss:
   weight_mel: 15

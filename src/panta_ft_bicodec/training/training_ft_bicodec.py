@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import torch
 from torch import device, nn
@@ -29,9 +30,14 @@ logging.basicConfig(
     ]
 )
 
+def build_folder_to_save(config: dict) -> str:
+    name = "lr_" + str(config["training"]["lr"]) + "_lr_ad" + str(config["adversarial_model"]["lr"]) + "_norm_disc_" + str(int(config["training"]["discriminator_norm_gradient"])) + "_norm_gen_" + str(int(config["training"]["generator_norm_gradient"]))
+    return name 
 
 def train(config: dict):
     """ train the model """
+    name_folder_to_save = build_folder_to_save(config)
+    os.makedirs(name_folder_to_save, exist_ok=True)
     current_path = Path(__file__).resolve().parent
     device, rank, world_size, local_rank, is_main_process = setup_ddp(type_ddp=config["training"]["type_ddp"])
     logging.info(f"Starting training with config:{local_rank}, {is_main_process}")
@@ -58,8 +64,8 @@ def train(config: dict):
     disciminator.to(device=device)
     if config["training"]["load_model"] is not None:
         logging.info("Load model")
-        model.load_trained_model(str(current_path / "checkpoints" / config["training"]["load_model"]) +".safetensors")
-        disciminator.load(str(current_path / "checkpoints" / config["training"]["load_model"]) +"_disc.safetensors")
+        model.load_trained_model(str(current_path / name_folder_to_save / config["training"]["load_model"]) +".safetensors")
+        disciminator.load(str(current_path / name_folder_to_save / config["training"]["load_model"]) +"_disc.safetensors")
 
     dist.barrier()  
     model.model = DDP(
@@ -94,7 +100,7 @@ def train(config: dict):
     if config["training"]["load_model"] is not None:
         logging.info("load optimizers and schedulers")
         logging.info(f"Loading checkpoint from {config['training']['load_model']}")
-        path_to_checkpoint = str(current_path / "checkpoints" / config["training"]["load_model"])
+        path_to_checkpoint = str(current_path / name_folder_to_save / config["training"]["load_model"])
         checkpoint = torch.load(path_to_checkpoint + ".pt", map_location=device)
         optimizer_generator.load_state_dict(checkpoint['optimizer_generator'])
         optimizer_discriminator.load_state_dict(checkpoint['optimizer_discriminator'])
@@ -120,10 +126,11 @@ def train(config: dict):
         logging.info(f"Validation metrics at step {epoch}: {val_metric}")
         mlflow.log_metrics(val_metric, step=steps)
     dist.barrier()
-    logging.info(f"Starting training loop with {steps} steps already done.")
+    if is_main_process:
+        logging.info(f"Starting training loop with {steps} steps already done.")
     while steps < config["training"]["nb_steps"]:
         sampler_train.set_epoch(epoch)
-        for batch in tqdm(dataloader_train, desc="Training"):
+        for batch in dataloader_train:
             batch = batch.to(device)
             optimizer_discriminator.zero_grad()
             optimizer_generator.zero_grad()
@@ -138,7 +145,7 @@ def train(config: dict):
             loss_d.backward()
             nn.utils.clip_grad_norm_(
                 disciminator.parameters(),
-                max_norm=1
+                max_norm=config["training"]["discriminator_norm_gradient"]
             )
             optimizer_discriminator.step()
             scheduler_discriminator.step()
@@ -158,11 +165,12 @@ def train(config: dict):
             loss_g.backward()
             nn.utils.clip_grad_norm_(
                 model.model.module.get_parameter_ft_bicodec(),
-                max_norm=1
+                max_norm=config["training"]["generator_norm_gradient"]
             )
             optimizer_generator.step()
             scheduler_generator.step()
             steps += 1
+            break
             if steps >= config["training"]["nb_steps"]:
                 break
         epoch += 1
@@ -173,10 +181,11 @@ def train(config: dict):
             mel_loss=mel_loss,
             gan_loss=gan_loss,
             device=device))
-        logging.info(f"Validation metrics at step {epoch}: {val_metric}")
-        logging.info(f" Steps: {steps}")
         if is_main_process:
-            path_to_save_folder = "checkpoints"
+            logging.info(f"Validation metrics at step {epoch}: {val_metric}")
+            logging.info(f" Steps: {steps}")
+        if is_main_process:
+            path_to_save_folder = name_folder_to_save
             mlflow.log_metrics(val_metric, step=steps)
             path_to_save = Path(__file__).resolve().parent / path_to_save_folder / f"val_loss_{val_metric['mel_loss']:.0f}_lr_{epoch}"
             path_to_save_disc = str(Path(__file__).resolve().parent / path_to_save_folder / f"val_loss_{val_metric['mel_loss']:.0f}_lr_{epoch}_disc.safetensors")
@@ -195,6 +204,7 @@ def train(config: dict):
                 checkpoint_path=Path(f"{path_to_save}.pt")
             )
             disciminator.module.save(path_to_save_disc)
+            raise ValueError("Stop training after one epoch for testing")
         dist.barrier()
     dist.barrier()
     dist.destroy_process_group()

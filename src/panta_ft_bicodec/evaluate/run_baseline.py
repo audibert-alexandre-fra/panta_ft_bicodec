@@ -13,12 +13,12 @@ import shutil
 logging.basicConfig(level=logging.INFO)
 
 def build_audio_baseline():
-    folder_dir_output = "repere_bicodec"
+    folder_dir_output = "single_voice"
     device = get_available_device()
     logging.info(f" Device used during evaluation: {device}")
     model = BiCodecTokenizer(device=device) 
     os.makedirs(folder_dir_output, exist_ok=True)
-    current_dir = Path("/home/getalp/audibeal/build_dataset_audio/repere")
+    current_dir = Path("ref")
     for index, file in enumerate(current_dir.glob("*.wav")):
         print(file)
         gobal_tokens, sementic_tokens = model.tokenize(str(file))
