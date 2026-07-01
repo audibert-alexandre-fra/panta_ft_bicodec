@@ -1,0 +1,30 @@
+dataset:
+  nb_val: 200
+  list_path_audio: 
+    - "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/data/mls_dataset/"
+    - "/lustre/fsn1/projects/rech/oou/uid39ok/panta_ft_bicodec/src/panta_ft_bicodec/data/epac/"
+
+
+training:
+  seed: 50
+  batch_size: 8
+  lr: 0.00001
+  epochs: 100
+  run_name: "first run"
+  experiment_name: "panta_ft_bicodec_log_with_l1_high_lr"
+  warmup_step_disciminator: 20000
+  warmup_step_generator: 20000
+  nb_steps: 200000
+  min_lr: 0.0000001
+  eval_step: 5000
+  type_ddp: "jeanzay"
+  load_model: null
+  discriminator_norm_gradient: 2
+  generator_norm_gradient: 10
+
+loss:
+  weight_mel: 15
+
+adversarial_model:
+  lr: 0.0001
+

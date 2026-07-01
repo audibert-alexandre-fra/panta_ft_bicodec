@@ -26,8 +26,8 @@ def build_audio_baseline(path_to_model: str):
         gobal_tokens, sementic_tokens = model.tokenize(str(file))
         audio_reconstructed = model.detokenize(gobal_tokens, sementic_tokens)
         save_audio(audio_reconstructed, f"{folder_to_save}/{file.stem}.wav", SAMPLING_RATE)
-        # if index > 10:
-        #     break
+        if index > 10:
+            break
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

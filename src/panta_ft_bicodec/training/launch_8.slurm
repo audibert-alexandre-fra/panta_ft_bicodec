@@ -6,8 +6,8 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --hint=nomultithread
 #SBATCH --time=20:00:00
-#SBATCH --output=./logs_slurm/run_1.out
-#SBATCH --error=./logs_slurm/run_1.err
+#SBATCH --output=./logs_slurm/run_8.out
+#SBATCH --error=./logs_slurm/run_8.err
 #SBATCH --account=oou@h100
 #SBATCH --mail-type=BEGIN,FAIL,ABORT,END
 #SBATCH --constraint=h100
@@ -21,4 +21,4 @@ export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export PYTORCH_ALLOC_CONF=expandable_segments:True
 
 source ../../../.venv/bin/activate
-srun python -u training_ft_bicodec.py config_1.yaml
+srun python -u training_ft_bicodec.py config_8.yaml

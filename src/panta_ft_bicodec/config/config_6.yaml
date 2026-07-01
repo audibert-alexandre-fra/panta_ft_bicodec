@@ -8,7 +8,7 @@ dataset:
 training:
   seed: 50
   batch_size: 8
-  lr: 0.00001
+  lr: 0.00002
   epochs: 100
   run_name: "first run"
   experiment_name: "panta_ft_bicodec_log_with_l1_high_lr"
@@ -19,12 +19,12 @@ training:
   eval_step: 5000
   type_ddp: "jeanzay"
   load_model: null
-  discriminator_norm_gradient: 10
+  discriminator_norm_gradient: 5
   generator_norm_gradient: 10
 
 loss:
   weight_mel: 15
 
 adversarial_model:
-  lr: 0.00001
+  lr: 0.00003
 

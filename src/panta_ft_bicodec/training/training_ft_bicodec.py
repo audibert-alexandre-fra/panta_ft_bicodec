@@ -1,3 +1,4 @@
+import argparse
 import os
 from pathlib import Path
 import torch
@@ -212,7 +213,10 @@ def train(config: dict):
 
 
 if __name__ == "__main__":
+    argument_parser = argparse.ArgumentParser(description="Train the BiCodec model")
+    argument_parser.add_argument("--config", help="Path to the configuration file")
+    args = argument_parser.parse_args()
     current_path = Path(__file__).resolve().parent
-    config_path = current_path.parent / "config" / "config.yaml"
+    config_path = current_path.parent / "config" / args.config
     config = read_config(str(config_path))
     train(config=config)
