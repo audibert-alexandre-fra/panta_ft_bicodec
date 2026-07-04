@@ -1,0 +1,8 @@
+python3 run_model.py lr_1e-05_lr_ad0.0001_norm_disc_2_norm_gen_10.safetensors
+python3 run_model.py lr_1e-05_lr_ad0.0001_norm_disc_5_norm_gen_10.safetensors
+python3 run_model.py lr_1e-05_lr_ad3e-05_norm_disc_2_norm_gen_10.safetensors
+python3 run_model.py lr_1e-05_lr_ad3e-05_norm_disc_5_norm_gen_10.safetensors
+python3 run_model.py lr_2e-05_lr_ad0.0001_norm_disc_2_norm_gen_10.safetensors
+python3 run_model.py lr_2e-05_lr_ad0.0001_norm_disc_5_norm_gen_10.safetensors
+python3 run_model.py lr_2e-05_lr_ad3e-05_norm_disc_2_norm_gen_10.safetensors
+python3 run_model.py lr_2e-05_lr_ad3e-05_norm_disc_5_norm_gen_10.safetensors
