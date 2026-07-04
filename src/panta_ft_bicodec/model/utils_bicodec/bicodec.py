@@ -65,14 +65,14 @@ class BiCodec(nn.Module):
         self.prenet = prenet
         self.postnet = postnet
         self.init_mel_transformer(mel_params)
-        # self.encoder.requires_grad_(False)
-        # self.quantizer.requires_grad_(False)
-        # self.speaker_encoder.requires_grad_(False)
+        self.encoder.requires_grad_(False)
+        self.quantizer.requires_grad_(False)
+        self.speaker_encoder.requires_grad_(False)
         self.postnet.requires_grad_(False)
-        self.speaker_encoder.speaker_encoder.pool.requires_grad_(False)
-        self.speaker_encoder.speaker_encoder.bn.requires_grad_(False)
-        self.speaker_encoder.speaker_encoder.linear.requires_grad_(False)
-        self.speaker_encoder.speaker_encoder.bn2.requires_grad_(False)  # no-op si Identity
+        # self.speaker_encoder.speaker_encoder.pool.requires_grad_(False)
+        # self.speaker_encoder.speaker_encoder.bn.requires_grad_(False)
+        # self.speaker_encoder.speaker_encoder.linear.requires_grad_(False)
+        # self.speaker_encoder.speaker_encoder.bn2.requires_grad_(False)  # no-op si Identity
 
 
     @classmethod
@@ -148,15 +148,16 @@ class BiCodec(nn.Module):
             dict: A dictionary containing the reconstruction, features, and other metrics.
         """
         feat = batch["feat"]
-        # Extract speaker embeddings from the reference waveforms
-        mel = self.mel_transformer(batch["ref_wav"]).squeeze(1)
-        _, d_vector = self.speaker_encoder(mel.transpose(1, 2))
+        with torch.no_grad():
+            # Extract speaker embeddings from the reference waveforms
+            mel = self.mel_transformer(batch["ref_wav"]).squeeze(1)
+            _, d_vector = self.speaker_encoder(mel.transpose(1, 2))
 
-        # Encode the features and quantize them
-        z = self.encoder(feat.transpose(1, 2))
-        vq_outputs = self.quantizer(z)
-        conditions = d_vector
-        x = self.prenet(vq_outputs["z_q"], conditions)
+            # Encode the features and quantize them
+            z = self.encoder(feat.transpose(1, 2))
+            vq_outputs = self.quantizer(z)
+            conditions = d_vector
+        x = self.prenet(vq_outputs["z_q"], conditions)    
         x = x + conditions.unsqueeze(-1)
         wav_recon = self.decoder(x)
         return wav_recon, vq_outputs

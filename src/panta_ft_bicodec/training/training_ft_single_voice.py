@@ -1,3 +1,4 @@
+import argparse
 import os
 from pathlib import Path
 import torch
@@ -30,9 +31,14 @@ logging.basicConfig(
     ]
 )
 
+def build_folder_to_save(config: dict) -> str:
+    name = "ft_lr_" + str(config["training"]["lr"]) + '_steps_' + str(config["training"]["nb_steps"])
+    return name 
 
 def train(config: dict):
     """ train the model """
+    name_folder_to_save = build_folder_to_save(config)
+    os.makedirs(name_folder_to_save, exist_ok=True)
     current_path = Path(__file__).resolve().parent
     device, rank, world_size, local_rank, is_main_process = setup_ddp(type_ddp=config["training"]["type_ddp"])
     logging.info(f"Starting training with config:{local_rank}, {is_main_process}")
@@ -57,12 +63,9 @@ def train(config: dict):
     model = BiCodecTokenizer(device=device)
     disciminator = Discriminator()
     disciminator.to(device=device)
-    if config["training"]["load_model"] is not None:
-        logging.info("Load model")
-        model.load_trained_model(str(current_path / "checkpoints" / config["training"]["load_model"]) +".safetensors")
-        disciminator.load(str(current_path / "checkpoints" / config["training"]["load_model"]) +"_disc.safetensors")
-    else:
-        raise ValueError(f" The loaded model should ne be set to None {config["training"]["load_model"]}")
+    logging.info("Load model")
+    model.load_trained_model(str(current_path / "lr_2e-05_lr_ad3e-05_norm_disc_5_norm_gen_10" / config["training"]["load_model"]) +".safetensors")
+    disciminator.load(str(current_path / "lr_2e-05_lr_ad3e-05_norm_disc_5_norm_gen_10" / config["training"]["load_model"]) +"_disc.safetensors")
 
     dist.barrier()  
     model.model = DDP(
@@ -75,8 +78,8 @@ def train(config: dict):
         device_ids=[local_rank],
         output_device=local_rank,
     )
-    optimizer_generator = torch.optim.AdamW(model.model.module.get_parameter(), lr=config["training"]["lr"])
-    optimizer_discriminator = torch.optim.AdamW(disciminator.parameters(), lr=config["adversarial_model"]["lr"])
+    optimizer_generator = torch.optim.AdamW(model.model.module.get_parameter(), lr=config["training"]["lr"], betas=(0.8, 0.9))
+    optimizer_discriminator = torch.optim.AdamW(disciminator.parameters(), lr=config["adversarial_model"]["lr"], betas=(0.8, 0.9))
     total_steps = config["training"]["nb_steps"]
     scheduler_generator = CosineSchedulerWithInternalState(
         optimizer_generator, 
@@ -94,6 +97,8 @@ def train(config: dict):
     mel_loss = MelSpectrogramLoss(weight=config["loss"]["weight_mel"])
     mel_loss.to(device=device)
     gan_loss = GANLoss(discriminator=disciminator)
+    steps = 0
+    epoch = 0
     val_metric = asdict(
         eval_model(dataloader=dataloader_val,
         model=model,
@@ -108,47 +113,45 @@ def train(config: dict):
         logging.info(f"Validation metrics at step {epoch}: {val_metric}")
         mlflow.log_metrics(val_metric, step=steps)
     dist.barrier()
-    logging.info(f"Starting training loop with {steps} steps already done.")
-    os.makedirs("checkpoints_ft", exist_ok=True)
+    if is_main_process:
+        logging.info(f"Starting training loop with {steps} steps already done.")
     while steps < config["training"]["nb_steps"]:
         sampler_train.set_epoch(epoch)
-        for batch in tqdm(dataloader_train, desc="Training"):
+        for batch in dataloader_train:
             batch = batch.to(device)
             optimizer_discriminator.zero_grad()
             optimizer_generator.zero_grad()
             outputs, vq_metrics = model(batch)
+
             loss_d = compute_loss_discriminative(
                 x=outputs.detach(),
                 y=batch,
                 gan_loss=gan_loss
             )
-            gan_weight = max(0.0, min(1.0, (steps - 10_000) / 20_000))
-            apply_gan = gan_weight > 0.0
+            # Update discriminator
+            loss_d.backward()
+            nn.utils.clip_grad_norm_(
+                disciminator.parameters(),
+                max_norm=config["training"]["discriminator_norm_gradient"]
+            )
+            optimizer_discriminator.step()
+            scheduler_discriminator.step()
             loss_g = compute_loss_gen(
                 x=outputs,
                 y=batch,
                 mel_loss=mel_loss,
                 gan_loss=gan_loss,
-                apply_gan=apply_gan,
-                weights=gan_weight
+                apply_gan=True,
             )
             loss_g += vq_metrics["vq_loss"]
             # Update generator
             loss_g.backward()
             nn.utils.clip_grad_norm_(
-                model.model.module.get_parameter_ft_bicodec(),
-                max_norm=1e2
+                model.model.module.get_parameter(),
+                max_norm=config["training"]["generator_norm_gradient"]
             )
             optimizer_generator.step()
             scheduler_generator.step()
-            # Update discriminator
-            loss_d.backward()
-            nn.utils.clip_grad_norm_(
-                disciminator.parameters(),
-                max_norm=1e1
-            )
-            optimizer_discriminator.step()
-            scheduler_discriminator.step()
             steps += 1
             if steps >= config["training"]["nb_steps"]:
                 break
@@ -159,24 +162,42 @@ def train(config: dict):
             model=model,
             mel_loss=mel_loss,
             gan_loss=gan_loss,
-            device=device))
-        logging.info(f"Validation metrics at step {epoch}: {val_metric}")
-        logging.info(f" Steps: {steps}")
+            device=device)
+        )
         if is_main_process:
+            logging.info(f"Validation metrics at step {epoch}: {val_metric}")
+            logging.info(f" Steps: {steps}")
+        if is_main_process:
+            path_to_save_folder = name_folder_to_save
             mlflow.log_metrics(val_metric, step=steps)
-            path_to_save = Path(__file__).resolve().parent / "checkpoints_ft" / f"val_loss_{val_metric['mel_loss']:.0f}_lr_{epoch}"
+            path_to_save = Path(__file__).resolve().parent / path_to_save_folder / f"val_loss_{val_metric['mel_loss']:.0f}_lr_{epoch}"
+            path_to_save_disc = str(Path(__file__).resolve().parent / path_to_save_folder / f"val_loss_{val_metric['mel_loss']:.0f}_lr_{epoch}_disc.safetensors")
             state_dict = {
                 k: v for k, v in model.model.module.state_dict().items()
                 if 'mel_transformer' not in k
             }
             save_file(state_dict,  Path(f"{path_to_save}.safetensors"))
+            save_optimizers_and_steps(
+                optimizer_generator=optimizer_generator,
+                optimizer_discriminator=optimizer_discriminator,
+                scheduler_discriminator=scheduler_discriminator,
+                scheduler_generator=scheduler_generator,
+                epoch=epoch,
+                steps=steps,
+                checkpoint_path=Path(f"{path_to_save}.pt")
+            )
+            disciminator.module.save(path_to_save_disc)
+        dist.barrier()
     dist.barrier()
     dist.destroy_process_group()
 
 
 
 if __name__ == "__main__":
+    argument_parser = argparse.ArgumentParser(description="Train the BiCodec model")
+    argument_parser.add_argument("--config", help="Path to the configuration file")
+    args = argument_parser.parse_args()
     current_path = Path(__file__).resolve().parent
-    config_path = current_path.parent / "config" / "config.yaml"
+    config_path = current_path.parent / "config" / args.config
     config = read_config(str(config_path))
     train(config=config)
