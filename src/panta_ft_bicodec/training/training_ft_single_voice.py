@@ -66,18 +66,17 @@ def train(config: dict):
     logging.info("Load model")
     model.load_trained_model(str(current_path / "lr_2e-05_lr_ad3e-05_norm_disc_5_norm_gen_10" / "val_loss_51_lr_20.safetensors"))
     disciminator.load(str(current_path / "lr_2e-05_lr_ad3e-05_norm_disc_5_norm_gen_10" / "val_loss_51_lr_20_disc.safetensors"))
-
+        # Sécurité : force le gel des modules non entraînés dans get_parameter()
+    model.model.quantizer.requires_grad_(False)
+    model.model.encoder.requires_grad_(False)
+    model.model.speaker_encoder.requires_grad_(False)
+    model.model.postnet.requires_grad_(False)
     dist.barrier()  
     model.model = DDP(
         model.model,
         device_ids=[local_rank],
         output_device=local_rank,
     )
-    # Sécurité : force le gel des modules non entraînés dans get_parameter()
-    model.model.module.quantizer.requires_grad_(False)
-    model.model.module.encoder.requires_grad_(False)
-    model.model.module.speaker_encoder.requires_grad_(False)
-    model.model.module.postnet.requires_grad_(False)
     disciminator = DDP(
         disciminator,
         device_ids=[local_rank],
