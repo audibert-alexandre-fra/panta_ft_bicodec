@@ -73,6 +73,11 @@ def train(config: dict):
         device_ids=[local_rank],
         output_device=local_rank,
     )
+    # Sécurité : force le gel des modules non entraînés dans get_parameter()
+    model.model.module.quantizer.requires_grad_(False)
+    model.model.module.encoder.requires_grad_(False)
+    model.model.module.speaker_encoder.requires_grad_(False)
+    model.model.module.postnet.requires_grad_(False)
     disciminator = DDP(
         disciminator,
         device_ids=[local_rank],
@@ -143,7 +148,6 @@ def train(config: dict):
                 gan_loss=gan_loss,
                 apply_gan=True,
             )
-            loss_g += vq_metrics["vq_loss"]
             # Update generator
             loss_g.backward()
             nn.utils.clip_grad_norm_(
