@@ -64,8 +64,8 @@ def train(config: dict):
     disciminator = Discriminator()
     disciminator.to(device=device)
     logging.info("Load model")
-    model.load_trained_model(str(current_path / "lr_2e-05_lr_ad3e-05_norm_disc_5_norm_gen_10" / config["training"]["load_model"]) +".safetensors")
-    disciminator.load(str(current_path / "lr_2e-05_lr_ad3e-05_norm_disc_5_norm_gen_10" / config["training"]["load_model"]) +"_disc.safetensors")
+    model.load_trained_model(str(current_path / "lr_2e-05_lr_ad3e-05_norm_disc_5_norm_gen_10" / "val_loss_51_lr_20.safetensors"))
+    disciminator.load(str(current_path / "lr_2e-05_lr_ad3e-05_norm_disc_5_norm_gen_10" / "val_loss_51_lr_20.safetensors_disc.safetensors")
 
     dist.barrier()  
     model.model = DDP(
