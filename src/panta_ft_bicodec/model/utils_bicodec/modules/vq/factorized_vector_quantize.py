@@ -98,20 +98,16 @@ class FactorizedVectorQuantize(nn.Module):
         perplexity = torch.exp(-torch.sum(avg_probs * torch.log(avg_probs + 1e-10)))
 
         active_num = (embed_onehot.sum(0).sum(0) > 0).sum()
-        if self.training:
-            commit_loss = (
-                F.mse_loss(z_e, z_q.detach(), reduction="none").mean([1, 2])
-                * self.commitment
-            )
+        # Computed in eval mode too, so validation reports it (was NaN before)
+        commit_loss = (
+            F.mse_loss(z_e, z_q.detach(), reduction="none").mean([1, 2])
+            * self.commitment
+        )
 
-            codebook_loss = (
-                F.mse_loss(z_q, z_e.detach(), reduction="none").mean([1, 2])
-                * self.codebook_loss_weight
-            )
-
-        else:
-            commit_loss = torch.zeros(0, device=z.device)
-            codebook_loss = torch.zeros(0, device=z.device)
+        codebook_loss = (
+            F.mse_loss(z_q, z_e.detach(), reduction="none").mean([1, 2])
+            * self.codebook_loss_weight
+        )
 
         z_q = (
             z_e + (z_q - z_e).detach()

@@ -73,6 +73,7 @@ class BiCodec(nn.Module):
         self.speaker_encoder.speaker_encoder.bn.requires_grad_(False)
         self.speaker_encoder.speaker_encoder.linear.requires_grad_(False)
         self.speaker_encoder.speaker_encoder.bn2.requires_grad_(False)  # no-op si Identity
+        self.finetune_encoder = False  # set to True by training_full.py
 
 
     @classmethod
@@ -148,7 +149,8 @@ class BiCodec(nn.Module):
             dict: A dictionary containing the reconstruction, features, and other metrics.
         """
         feat = batch["feat"]
-        with torch.no_grad():
+        # Encoder side gets gradients only in full fine-tuning (finetune_encoder=True)
+        with torch.set_grad_enabled(self.finetune_encoder and torch.is_grad_enabled()):
             # Extract speaker embeddings from the reference waveforms
             mel = self.mel_transformer(batch["ref_wav"]).squeeze(1)
             _, d_vector = self.speaker_encoder(mel.transpose(1, 2))

@@ -137,15 +137,21 @@ class GANLoss(nn.Module):
 
 
 
-def compute_loss_gen(x, y, mel_loss, gan_loss, apply_gan=True, weights:int =1):
+def compute_loss_gen(x, y, mel_loss, gan_loss, apply_gan=True, weights:int =1, return_details: bool = False):
     min_len = min(x.shape[-1], y.shape[-1])
     x = x[..., :min_len]
     y = y[..., :min_len]
     loss = 0.0
-    loss += mel_loss(x, y)
+    details = {}
+    details["mel"] = mel_loss(x, y)
+    loss += details["mel"]
     if apply_gan:
         loss_g, loss_feature = gan_loss.generator_loss(fake=x, real=y)
         loss += weights *(loss_g + loss_feature)
+        details["adv"] = loss_g  # before gan weight
+        details["feat"] = loss_feature
+    if return_details:
+        return loss, details
     return loss
 
 
@@ -179,7 +185,7 @@ def eval_model(dataloader, model, mel_loss, gan_loss, device) -> ValidationOutpu
     model.model.train()
     return ValidationOutput(
         mel_loss=total_mel_loss / len(dataloader),
-        vq_usage=torch.cat(vq_usage).flatten().unique().shape[0]/8196,
+        vq_usage=torch.cat(vq_usage).flatten().unique().shape[0]/8192,
         discriminator_loss=loss_disciminator / len(dataloader),
         loss_vq=loss_vq / len(dataloader)
     )

@@ -30,6 +30,26 @@ def scheduler_constructor(str_scheduler: str):
             raise ValueError(f"Scheduler {str_scheduler} is not supported")
 
 
+class RunningMetrics:
+    """ Accumulate training metrics between two logs and return their means """
+
+    def __init__(self) -> None:
+        self.sums = {}
+        self.counts = {}
+
+    def add(self, metrics: dict) -> None:
+        # Values stay on GPU until pop_means to avoid a sync at every step
+        for name, value in metrics.items():
+            self.sums[name] = self.sums.get(name, 0) + value
+            self.counts[name] = self.counts.get(name, 0) + 1
+
+    def pop_means(self) -> dict:
+        means = {name: float(self.sums[name] / self.counts[name]) for name in self.sums}
+        self.sums = {}
+        self.counts = {}
+        return means
+
+
 class CosineSchedulerWithInternalState(CosineLRScheduler):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
